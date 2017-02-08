@@ -5,3 +5,6 @@ all:
 
 test: test.c
 	$(CC) test.c -o test -Wall -Wextra -lcunit
+
+doc:
+	doxygen .

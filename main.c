@@ -1,6 +1,15 @@
+/**
+ *  \file main.c
+ *  \author Simon Wietrich
+ **/
+
 #include <stdio.h>
 #include <SDL2/SDL.h>
-// aze
+
+/**
+ * \fn
+ * \return int
+ **/
 int main() {
     void* nullptr = NULL;
 
