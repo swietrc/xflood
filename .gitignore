@@ -68,3 +68,7 @@ tags
 ### Doxygen ###
 html/
 latex/
+
+### JetBrains IDE folder
+
+.idea/*
