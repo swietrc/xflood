@@ -72,3 +72,11 @@ latex/
 ### JetBrains IDE folder
 
 .idea/*
+
+### Program executable
+
+Xflood
+
+### Test executables
+
+tests
