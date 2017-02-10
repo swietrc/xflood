@@ -71,7 +71,7 @@ latex/
 
 ### JetBrains IDE folder
 
-.idea/*
+.idea/
 
 ### Program executable
 

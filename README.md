@@ -1,12 +1,12 @@
-### Project Description
+##Project Description
 
 The goal of this project is to reproduce [this game](https://play.google.com/store/apps/details?id=com.wetpalm.colorflood&hl=en)
 
-[color Flood game image](https://www.google.fr/search?q=colorflood&client=ubuntu&espv=2&biw=1280&bih=709&site=webhp&source=lnms&tbm=isch&sa=X&ved=0ahUKEwj5yMvWr4XSAhVBMBoKHfeJAusQ_AUIBygC#imgrc=nujHmC_VT7g4HM:)
+![color Flood game image](http://www.appscrawler.com/application/ScreenShotImageAction.do?appId=107888&imageId=0)
 
 ... and to create a solver for the game that will give the best color suite to play in order to finish the game as fast as possible.
 
-### How to build and execute the program
+##How to build and execute the program
 
 If it's not already installed, install the common build tools (it includes "make")
 ```bash
@@ -31,7 +31,7 @@ This will generate the program which can be executed like so :
 $ ./XFlood
 ```
 
-### How to run unit tests
+##How to run unit tests
 
 You first need to install [the CUnit test framework](http://cunit.sourceforge.net/).
 If you are on a debian-like OS, you can install it directly from the repositories :
