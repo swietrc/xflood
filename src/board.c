@@ -72,20 +72,21 @@ void debug_displayBoard(size_t size, board b) {
     }
 }
 
- int main() {
-    board b = initRandomBoard(24);
-    debug_displayBoard(24, b); 
-    floodBoard(b, 24, G, B, 0, 0);
-    printf("\n");
-    printf("\n");
-    printf("\n");
-    debug_displayBoard(24, b); 
-    floodBoard(b, 24, B, G, 0, 0);
-    floodBoard(b, 24, G, B, 0, 0);
-    printf("\n");
-    printf("\n");
-    printf("\n");
-    debug_displayBoard(24, b); 
-
-    freeBoard(b);
+/**
+ * Compare two boards (assuming they have the same size)
+ * they will be considered similar if the color of the cells in the same spot is the same on both boards.
+ * @param b1 first board
+ * @param b2 second board
+ * @param size The size of both boards
+ * @return 1 if they are similar, 0 otherwise
+ */
+int areSimilarBoards(board b1, board b2, size_t size) {
+    for(int x=0; x<size; x++){
+        for(int y=0; y<size; y++){
+            if(getBoardCell(b1, size, x, y) != getBoardCell(b2, size, x, y)){
+                return 0;
+            }
+        }
+    }
+    return 1;
 }

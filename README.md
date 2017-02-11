@@ -1,3 +1,5 @@
+![logo](http://img15.hostingpics.net/pics/908468Xfloodlogo.png)
+
 ##Project Description
 
 The goal of this project is to reproduce [this game](https://play.google.com/store/apps/details?id=com.wetpalm.colorflood&hl=en)

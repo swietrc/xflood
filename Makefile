@@ -1,13 +1,12 @@
 CC=gcc
+FLAGS=-Wall -Wextra
 
-all:
-	$(CC) main.c -o Xflood -Wall -Wextra -lSDL2
+all: src/main.c src/board.c src/board.h
+	$(CC) src/main.c src/board.c -o Xflood $(FLAGS) -lSDL2
 
-testBoard: testBoard.c
-	$(CC) testBoard.c -o testBoard -Wall -Wextra -lcunit
+tests: test/tests.c src/board.c src/board.h
+	$(CC) test/tests.c src/board.c -o tests $(FLAGS) -lcunit
 
-tests: testBoard.c
-	$(CC) testBoard.c -o tests -Wall -Wextra -lcunit
-
-doc:
-	doxygen .
+.PHONY: docs
+docs:
+	doxygen ./Doxyfile
