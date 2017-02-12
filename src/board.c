@@ -32,7 +32,7 @@ board initBoard(size_t size) {
  * \return initialized random board
  */
 board initRandomBoard(size_t size) {
-    srand(time(1));
+    srand(time(NULL));
     int board_size = size*size;
 
     board b = (board) malloc(sizeof(Cell) * board_size);
