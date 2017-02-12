@@ -1,7 +1,10 @@
 /**
  * \file board.c
- * Contains all operations done on the board.
+ * Contains all board related data structures and operations.
  * \author Simon Wietrich
+ * \author Pierre Genthon
+ * \author Celestin Caumes
+ * \author Camille Schnell
  **/
 
 
@@ -12,15 +15,22 @@
 #include "board.h"
 
 /**
- * \fn
- * Initialises an empty board
+ * \fn board initBoard(int size)
+ * \brief Initialises an empty board
  * \param size Size of the board to initialize
- **/
+ * \return initialized empty board
+ */
 board initBoard(int size) {
     board b = (board) calloc(size, sizeof(Cell));
     return b;
 }
 
+/**
+ * \fn board initRandomBoard(int size)
+ * \brief Initialises a strictly random board.
+ * \param size Size of the board to initialize
+ * \return initialized random board
+ */
 board initRandomBoard(int size) {
     srand(1);
     int board_size = size*size;
@@ -32,14 +42,42 @@ board initRandomBoard(int size) {
     return b;
 }
 
+/**
+ * \fn board getBoardCell(board b, size_t size, int x, int y)
+ * \brief Get value of a specific cell on the board
+ * \param b
+ * \param size Size of board b
+ * \param x coordinate of cell
+ * \param y coordinate of cell
+ * \return cell at coords x, y on board b
+ */
 Cell getBoardCell(board b, size_t size, int x, int y) {
     return b[x * size + y];
 }
 
+/**
+ * \fn void setBoardCell(board b, size_t size, int x, int y, Cell color)
+ * \brief Set value of a specific cell on the board
+ * \param b
+ * \param size Size of board b
+ * \param x coordinate of cell
+ * \param y coordinate of cell
+ * \param color new value of the cell
+ */
 void setBoardCell(board b, size_t size, int x, int y, Cell color) {
    b[x * size + y] = color; 
 }
 
+/**
+ * \fn void floodBoard(board b, size_t size, Cell oldColor, Cell newColor, int x, int y)
+ * \brief Recursive implementation of flood fill algorithm
+ * \param b board to flood
+ * \param size Size of board b
+ * \param oldColor previous board color
+ * \param newColor color of the flood
+ * \param x position of the flood start
+ * \param y position of the flood start
+ */
 void floodBoard(board b, size_t size, Cell oldColor, Cell newColor, int x, int y) {
     if ((oldColor == newColor) || (getBoardCell(b, size, x, y) != oldColor)) {
         printf("%d %d\n", x, y);
