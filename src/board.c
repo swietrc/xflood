@@ -76,7 +76,7 @@ void setBoardCell(board b, size_t size, int x, int y, Cell color) {
  * \param oldColor previous board color
  * \param newColor color of the flood
  * \param x X position to flood
- * \param y X position to flood
+ * \param y Y position to flood
  */
 void floodBoard(board b, size_t size, Cell oldColor, Cell newColor, int x, int y) {
     if ((oldColor == newColor) || (getBoardCell(b, size, x, y) != oldColor)) {
