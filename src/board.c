@@ -24,7 +24,7 @@ Board* initBoard(size_t size) {
     size_t board_size = size * size;
     Board* b = (Board*) malloc(sizeof(Board));
     b->grid = (Cell*) calloc(board_size, sizeof(Cell));
-    b->size = board_size;
+    b->size = size;
     return b;
 }
 
@@ -40,7 +40,7 @@ Board* initRandomBoard(size_t size) {
 
     Board* b = (Board*) malloc(sizeof(Board));
     b->grid = (Cell*) calloc(board_size, sizeof(Cell));
-    b->size = board_size;
+    b->size = size;
     for (size_t i = 0 ; i < board_size ; i++) {
         b->grid[i] = rand() % NB_COLOURS;
     }
@@ -58,7 +58,7 @@ Board* initRandomBoard(size_t size) {
  */
 Cell getBoardCell(Board* b, int x, int y) {
     size_t s = b->size;
-    return b->grid[x * s + y];
+    return b->grid[y * s + x];
 }
 
 /**
@@ -71,7 +71,7 @@ Cell getBoardCell(Board* b, int x, int y) {
  * \param color new value of the cell
  */
 void setBoardCell(Board* b, int x, int y, Cell color) {
-   b->grid[x * b->size + y] = color; 
+   b->grid[y * b->size + x] = color; 
 }
 
 /**
@@ -113,10 +113,10 @@ void freeBoard(Board* b) {
 }
 
 void debug_displayBoard(Board* b) {
-    char cchar[6] = { 'R', 'G', 'B', 'Y', 'O', 'M' };
+    char* cchar[6] = { "\e[31m0\e[0m", "\e[92m1\e[0m", "\e[34m2\e[0m", "\e[93m3\e[0m", "\e[38;5;166m4\e[0m", "\e[35m5\e[0m" };
 
-    for (size_t i = 0 ; i < b->size; i++) {
-        printf("%d ", b->grid[i]);
+    for (size_t i = 0 ; i < b->size * b->size; i++) {
+        printf("%s ", cchar[b->grid[i]]);
 
         if (i%24 == 23) printf("\n");
     }
@@ -131,7 +131,7 @@ void debug_displayBoard(Board* b) {
  * @return 1 if they are similar, 0 otherwise
  */
 /*
-int areSimilarBoards(board b1, board b2, size_t size) {
+int areSimilarBoards(Board* b1, Board* b2, size_t size) {
     for(int x=0; x<size; x++){
         for(int y=0; y<size; y++){
             if(getBoardCell(b1, size, x, y) != getBoardCell(b2, size, x, y)){
@@ -142,22 +142,26 @@ int areSimilarBoards(board b1, board b2, size_t size) {
     return 1;
 }
 */
-
+/*
 int main() {
     char cchar[6] = { 'R', 'G', 'B', 'Y', 'O', 'M' };
 
     Board* b = initRandomBoard(24);
     debug_displayBoard(b);
-    floodBoard(b, G, R, 0, 0);
+    floodBoard(b, G, B, 0, 0);
     printf("\n\n");
     debug_displayBoard(b);
-    /*
-    debug_displayBoard(b);
+    floodBoard(b, B, G, 0, 0);
     floodBoard(b, G, B, 0, 0);
-    */
-    printf("Top left %d\n", getBoardCell(b, 0, 0));
+    floodBoard(b, B, Y, 0, 0);
+    floodBoard(b, Y, B, 0, 0);
+    floodBoard(b, B, R, 0, 0);
+    debug_displayBoard(b);
+    printf("%d\n", b->size);
+    printf("Top left %d\n", b->grid[24]);
     printf("Green %d\n", G);
 
 
     return 0;
 }
+*/
