@@ -17,10 +17,10 @@
 /**
  * \fn board initBoard(int size)
  * \brief Initialises an empty board
- * \param size Size of the board to initialize
+ * \param size Width/Height  of the board to initialize
  * \return initialized empty board
  */
-board initBoard(int size) {
+board initBoard(size_t size) {
     board b = (board) calloc(size, sizeof(Cell));
     return b;
 }
@@ -28,11 +28,11 @@ board initBoard(int size) {
 /**
  * \fn board initRandomBoard(int size)
  * \brief Initialises a strictly random board.
- * \param size Size of the board to initialize
+ * \param size Width/Height of the board to initialize
  * \return initialized random board
  */
-board initRandomBoard(int size) {
-    srand(1);
+board initRandomBoard(size_t size) {
+    srand(time(NULL));
     int board_size = size*size;
 
     board b = (board) malloc(sizeof(Cell) * board_size);
@@ -47,8 +47,8 @@ board initRandomBoard(int size) {
  * \brief Get value of a specific cell on the board
  * \param b
  * \param size Size of board b
- * \param x coordinate of cell
- * \param y coordinate of cell
+ * \param x X coordinate of the cell
+ * \param y Y coordinate of the cell
  * \return cell at coords x, y on board b
  */
 Cell getBoardCell(board b, size_t size, int x, int y) {
@@ -60,8 +60,8 @@ Cell getBoardCell(board b, size_t size, int x, int y) {
  * \brief Set value of a specific cell on the board
  * \param b
  * \param size Size of board b
- * \param x coordinate of cell
- * \param y coordinate of cell
+ * \param x X coordinate of the cell
+ * \param y Y coordinate of the cell
  * \param color new value of the cell
  */
 void setBoardCell(board b, size_t size, int x, int y, Cell color) {
@@ -75,8 +75,8 @@ void setBoardCell(board b, size_t size, int x, int y, Cell color) {
  * \param size Size of board b
  * \param oldColor previous board color
  * \param newColor color of the flood
- * \param x position of the flood start
- * \param y position of the flood start
+ * \param x X position to flood
+ * \param y Y position to flood
  */
 void floodBoard(board b, size_t size, Cell oldColor, Cell newColor, int x, int y) {
     if ((oldColor == newColor) || (getBoardCell(b, size, x, y) != oldColor)) {
@@ -86,12 +86,16 @@ void floodBoard(board b, size_t size, Cell oldColor, Cell newColor, int x, int y
 
     setBoardCell(b, size, x, y, newColor);
 
+    // Check left
     if (x > 0)
         floodBoard(b, size, oldColor, newColor, x - 1, y);
+    // Check right
     if (x < size - 1)
         floodBoard(b, size, oldColor, newColor, x + 1, y);
+    // Check up
     if (y > 0)
         floodBoard(b, size, oldColor, newColor, x, y - 1);
+    // Check down
     if (y < size - 1)
         floodBoard(b, size, oldColor, newColor, x, y + 1);
 }
