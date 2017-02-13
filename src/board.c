@@ -142,26 +142,3 @@ int areSimilarBoards(Board* b1, Board* b2, size_t size) {
     return 1;
 }
 */
-/*
-int main() {
-    char cchar[6] = { 'R', 'G', 'B', 'Y', 'O', 'M' };
-
-    Board* b = initRandomBoard(24);
-    debug_displayBoard(b);
-    floodBoard(b, G, B, 0, 0);
-    printf("\n\n");
-    debug_displayBoard(b);
-    floodBoard(b, B, G, 0, 0);
-    floodBoard(b, G, B, 0, 0);
-    floodBoard(b, B, Y, 0, 0);
-    floodBoard(b, Y, B, 0, 0);
-    floodBoard(b, B, R, 0, 0);
-    debug_displayBoard(b);
-    printf("%d\n", b->size);
-    printf("Top left %d\n", b->grid[24]);
-    printf("Green %d\n", G);
-
-
-    return 0;
-}
-*/
