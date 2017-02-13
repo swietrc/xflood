@@ -1,4 +1,4 @@
-![logo](http://img15.hostingpics.net/pics/908468Xfloodlogo.png)
+<div style="text-align: center"><img src="http://img15.hostingpics.net/pics/908468Xfloodlogo.png" width=400 height=400 align="middle"></div>
 
 ##Project Description
 
