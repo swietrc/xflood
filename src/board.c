@@ -22,41 +22,47 @@
  */
 Board* initBoard(size_t size) {
     size_t board_size = size * size;
-    Board* b = (Board*) malloc(sizeof(Board));
-    b->grid = (Cell*) calloc(board_size, sizeof(Cell));
+    Board* b = malloc(sizeof(Board));
+    b->grid = calloc(board_size, sizeof(char));
     b->size = size;
     return b;
 }
 
 /**
  * \fn board initRandomBoard(int size)
- * \brief Initialises a strictly random board.
+ * \brief Initialises a strictly random 6-colored board.
  * \param size Width/Height of the board to initialize
  * \return initialized random board
  */
 Board* initRandomBoard(size_t size) {
-    srand(1);
-    int board_size = size*size;
+    /* Conversion table for the rand() function
+       used to convert random generated number between 0-5
+       into one of the 6 chars below */
+    char colours[NB_COLOURS] = {'R', 'G', 'B', 'Y', 'O', 'M'};
+    size_t board_size = size * size;
 
-    Board* b = (Board*) malloc(sizeof(Board));
-    b->grid = (Cell*) calloc(board_size, sizeof(Cell));
+    srand(time(NULL));
+
+    Board* b = malloc(sizeof(Board));
+    b->grid = calloc(board_size, sizeof(char));
     b->size = size;
+
     for (size_t i = 0 ; i < board_size ; i++) {
-        b->grid[i] = rand() % NB_COLOURS;
+        b->grid[i] = colours[rand() % NB_COLOURS];
     }
+
     return b;
 }
 
 /**
  * \fn board getBoardCell(board b, size_t size, int x, int y)
  * \brief Get value of a specific cell on the board
- * \param b
- * \param size Size of board b
+ * \param b the board
  * \param x X coordinate of the cell
  * \param y Y coordinate of the cell
  * \return cell at coords x, y on board b
  */
-Cell getBoardCell(Board* b, int x, int y) {
+char getBoardCell(Board* b, int x, int y) {
     size_t s = b->size;
     return b->grid[y * s + x];
 }
@@ -70,7 +76,7 @@ Cell getBoardCell(Board* b, int x, int y) {
  * \param y Y coordinate of the cell
  * \param color new value of the cell
  */
-void setBoardCell(Board* b, int x, int y, Cell color) {
+void setBoardCell(Board* b, int x, int y, char color) {
    b->grid[y * b->size + x] = color; 
 }
 
@@ -84,13 +90,10 @@ void setBoardCell(Board* b, int x, int y, Cell color) {
  * \param x X position to flood
  * \param y Y position to flood
  */
-void floodBoard(Board* b, Cell oldColor, Cell newColor, int x, int y) {
-    char cchar[6] = { 'R', 'G', 'B', 'Y', 'O', 'M' };
+void floodBoard(Board* b, char oldColor, char newColor, int x, int y) {
 
-    if ((oldColor == newColor) || (getBoardCell(b, x, y) != oldColor)) {
-        printf("X: %d Y:%d | Current %d Old %c New %c\n", x, y,getBoardCell(b, x, y), cchar[oldColor], cchar[newColor]);
+    if ((oldColor == newColor) || (getBoardCell(b, x, y) != oldColor))
         return;
-    }
 
     setBoardCell(b, x, y, newColor);
 
@@ -116,10 +119,10 @@ void freeBoard(Board* b) {
  * \brief Display the board \a b to stdin
  */
 void debug_displayBoard(Board* b) {
-    char* cchar[6] = { "\e[31m0\e[0m", "\e[92m1\e[0m", "\e[34m2\e[0m", "\e[93m3\e[0m", "\e[38;5;166m4\e[0m", "\e[35m5\e[0m" };
-
+    // char* cchar[6] = { "\e[31m0\e[0m", "\e[92m1\e[0m", "\e[34m2\e[0m", "\e[93m3\e[0m", "\e[38;5;166m4\e[0m", "\e[35m5\e[0m" };
+    
     for (size_t i = 0 ; i < b->size * b->size; i++) {
-        printf("%s ", cchar[b->grid[i]]);
+        printf("%c", b->grid[i]);
 
         if (i%24 == 23) printf("\n");
     }
