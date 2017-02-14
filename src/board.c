@@ -112,6 +112,9 @@ void freeBoard(Board* b) {
     free(b);
 }
 
+/**
+ * \brief Display the board \a b to stdin
+ */
 void debug_displayBoard(Board* b) {
     char* cchar[6] = { "\e[31m0\e[0m", "\e[92m1\e[0m", "\e[34m2\e[0m", "\e[93m3\e[0m", "\e[38;5;166m4\e[0m", "\e[35m5\e[0m" };
 
