@@ -6,14 +6,9 @@
 #define MAX_SIZE   24
 #define NB_COLOURS 6
 
+typedef struct board Board;
 
-typedef enum cell { R, G, B, Y, O, M } Cell;
-
-typedef struct board {
-    size_t size;
-    char color;
-    char* grid;
-} Board;
+extern const char colours[NB_COLOURS];
 
 Board* initBoard(size_t size);
 Board* initRandomBoard(size_t size);

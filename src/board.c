@@ -14,6 +14,16 @@
 
 #include "board.h"
 
+struct board {
+    size_t size;
+    char* grid;
+};
+
+/* Conversion table for the rand() function
+   used to convert random generated number between 0-5
+   into one of the 6 chars below */
+const char colours[NB_COLOURS] = {'R', 'G', 'B', 'Y', 'O', 'M'};
+
 /**
  * \fn board initBoard(int size)
  * \brief Initialises an empty board
@@ -38,7 +48,6 @@ Board* initRandomBoard(size_t size) {
     /* Conversion table for the rand() function
        used to convert random generated number between 0-5
        into one of the 6 chars below */
-    char colours[NB_COLOURS] = {'R', 'G', 'B', 'Y', 'O', 'M'};
     size_t board_size = size * size;
 
     srand(time(NULL));
@@ -63,8 +72,7 @@ Board* initRandomBoard(size_t size) {
  * \return cell at coords x, y on board b
  */
 char getBoardCell(Board* b, int x, int y) {
-    size_t s = b->size;
-    return b->grid[y * s + x];
+    return b->grid[y * b->size + x];
 }
 
 /**
