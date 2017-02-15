@@ -2,6 +2,7 @@
 #define _BOARD_H_
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #define MAX_SIZE   24
 #define NB_COLOURS 6
@@ -17,6 +18,7 @@ void setBoardCell(Board* b, int x, int y, char color);
 void floodBoard(Board* b, char oldColor, char newColor, int x, int y);
 void freeBoard(Board* b);
 void debug_displayBoard(Board* b);
-// int areSimilarBoards(board b1, board b2, size_t size);
+bool areSimilarBoards(Board* b1, Board* b2);
+bool isBoardOneColored(Board* b);
 
 #endif

@@ -138,22 +138,40 @@ void debug_displayBoard(Board* b) {
 }
 
 /**
- * Compare two boards (assuming they have the same size)
+ * Compare two boards (assuming they both have the size of b1)
  * they will be considered similar if the color of the cells in the same spot is the same on both boards.
  * @param b1 first board
  * @param b2 second board
  * @param size The size of both boards
- * @return 1 if they are similar, 0 otherwise
+ * @return true if they are similar, false otherwise
  */
-/*
-int areSimilarBoards(Board* b1, Board* b2, size_t size) {
+bool areSimilarBoards(Board* b1, Board* b2) {
+    size_t size = b1->size;
     for(int x=0; x<size; x++){
         for(int y=0; y<size; y++){
-            if(getBoardCell(b1, size, x, y) != getBoardCell(b2, size, x, y)){
-                return 0;
+            if(getBoardCell(b1, x, y) != getBoardCell(b2, x, y)){
+                return false;
             }
         }
     }
-    return 1;
+    return true;
 }
-*/
+
+/**
+ * Checks if all the cells on the board's grid are of the same color
+ * @param b the board to check
+ * @retrun true if the board is colored with only one color, false otherwise
+ */
+bool isBoardOneColored(Board* b){
+    // the board color is the color of the first cell (in top left corner of the grid)
+    char boardColor = b->grid[0];
+
+    for(int x=0; x<b->size; x++){
+        for(int y=0; y<b->size; y++){
+            if(getBoardCell(b, x, y) != boardColor){
+                return false;
+            }
+        }
+    }
+    return true;
+}
