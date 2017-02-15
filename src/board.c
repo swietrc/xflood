@@ -120,6 +120,7 @@ void floodBoard(Board* b, char oldColor, char newColor, int x, int y) {
 }
 
 void freeBoard(Board* b) {
+    free(b->grid);
     free(b);
 }
 
