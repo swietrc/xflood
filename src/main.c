@@ -11,6 +11,7 @@
  * \return int
  **/
 int main() {
+    srand(time(NULL));
     void* nullptr = NULL;
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {

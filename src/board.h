@@ -13,9 +13,10 @@ extern const char colours[NB_COLOURS];
 
 Board* initBoard(size_t size);
 Board* initRandomBoard(size_t size);
-char getBoardCell(Board* b, int x, int y);
-void setBoardCell(Board* b, int x, int y, char color);
-void floodBoard(Board* b, char oldColor, char newColor, int x, int y);
+char getBoardCell(Board* b, unsigned int x, unsigned int y);
+void setBoardCell(Board* b, unsigned int x, unsigned int y, char color);
+void setGrid(Board* b, char* newGrid);
+void floodBoard(Board* b, char oldColor, char newColor, unsigned int x, unsigned int y);
 void freeBoard(Board* b);
 void debug_displayBoard(Board* b);
 bool areSimilarBoards(Board* b1, Board* b2);

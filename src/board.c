@@ -50,8 +50,6 @@ Board* initRandomBoard(size_t size) {
        into one of the 6 chars below */
     size_t board_size = size * size;
 
-    srand(time(NULL));
-
     Board* b = malloc(sizeof(Board));
     b->grid = calloc(board_size, sizeof(char));
     b->size = size;
@@ -71,7 +69,7 @@ Board* initRandomBoard(size_t size) {
  * \param y Y coordinate of the cell
  * \return cell at coords x, y on board b
  */
-char getBoardCell(Board* b, int x, int y) {
+char getBoardCell(Board* b, unsigned int x, unsigned int y) {
     return b->grid[y * b->size + x];
 }
 
@@ -84,8 +82,18 @@ char getBoardCell(Board* b, int x, int y) {
  * \param y Y coordinate of the cell
  * \param color new value of the cell
  */
-void setBoardCell(Board* b, int x, int y, char color) {
+void setBoardCell(Board* b, unsigned int x, unsigned int y, char color) {
    b->grid[y * b->size + x] = color; 
+}
+
+/**
+ * Sets the Board's grid
+ * @param b The board that will hold the new grid
+ * @param newGrid The new grid, must be of the same size as the board
+ */
+void setGrid(Board* b, char* newGrid){
+    free(b->grid);
+    b->grid = newGrid;
 }
 
 /**
@@ -98,7 +106,7 @@ void setBoardCell(Board* b, int x, int y, char color) {
  * \param x X position to flood
  * \param y Y position to flood
  */
-void floodBoard(Board* b, char oldColor, char newColor, int x, int y) {
+void floodBoard(Board* b, char oldColor, char newColor, unsigned int x, unsigned int y) {
 
     if ((oldColor == newColor) || (getBoardCell(b, x, y) != oldColor))
         return;
@@ -129,11 +137,10 @@ void freeBoard(Board* b) {
  */
 void debug_displayBoard(Board* b) {
     // char* cchar[6] = { "\e[31m0\e[0m", "\e[92m1\e[0m", "\e[34m2\e[0m", "\e[93m3\e[0m", "\e[38;5;166m4\e[0m", "\e[35m5\e[0m" };
-    
     for (size_t i = 0 ; i < b->size * b->size; i++) {
         printf("%c", b->grid[i]);
 
-        if (i%24 == 23) printf("\n");
+        if (i%b->size == b->size-1) printf("\n");
     }
 }
 
@@ -147,8 +154,8 @@ void debug_displayBoard(Board* b) {
  */
 bool areSimilarBoards(Board* b1, Board* b2) {
     size_t size = b1->size;
-    for(int x=0; x<size; x++){
-        for(int y=0; y<size; y++){
+    for(unsigned int x=0; x<size; x++){
+        for(unsigned int y=0; y<size; y++){
             if(getBoardCell(b1, x, y) != getBoardCell(b2, x, y)){
                 return false;
             }
@@ -166,8 +173,8 @@ bool isBoardOneColored(Board* b){
     // the board color is the color of the first cell (in top left corner of the grid)
     char boardColor = b->grid[0];
 
-    for(int x=0; x<b->size; x++){
-        for(int y=0; y<b->size; y++){
+    for(unsigned int x=0; x<b->size; x++){
+        for(unsigned int y=0; y<b->size; y++){
             if(getBoardCell(b, x, y) != boardColor){
                 return false;
             }
