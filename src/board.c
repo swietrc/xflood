@@ -25,9 +25,9 @@ struct board {
 const char colours[NB_COLOURS] = {'R', 'G', 'B', 'Y', 'O', 'M'};
 
 /**
- * \fn board initBoard(int size)
+ * \fn Board* initBoard(size_t size)
  * \brief Initialises an empty board
- * \param size Width/Height  of the board to initialize
+ * \param size Width/Height of the board to initialize
  * \return initialized empty board
  */
 Board* initBoard(size_t size) {
@@ -39,15 +39,12 @@ Board* initBoard(size_t size) {
 }
 
 /**
- * \fn board initRandomBoard(int size)
+ * \fn Board* initRandomBoard(size_t size)
  * \brief Initialises a strictly random 6-colored board.
  * \param size Width/Height of the board to initialize
  * \return initialized random board
  */
 Board* initRandomBoard(size_t size) {
-    /* Conversion table for the rand() function
-       used to convert random generated number between 0-5
-       into one of the 6 chars below */
     size_t board_size = size * size;
 
     Board* b = malloc(sizeof(Board));
@@ -62,7 +59,7 @@ Board* initRandomBoard(size_t size) {
 }
 
 /**
- * \fn board getBoardCell(board b, size_t size, int x, int y)
+ * \fn char getBoardCell(Board* b, int x, int y)
  * \brief Get value of a specific cell on the board
  * \param b the board
  * \param x X coordinate of the cell
@@ -74,10 +71,9 @@ char getBoardCell(Board* b, unsigned int x, unsigned int y) {
 }
 
 /**
- * \fn void setBoardCell(board b, size_t size, int x, int y, Cell color)
+ * \fn void setBoardCell(Board* b, int x, int y, char color)
  * \brief Set value of a specific cell on the board
- * \param b
- * \param size Size of board b
+ * \param b the board
  * \param x X coordinate of the cell
  * \param y Y coordinate of the cell
  * \param color new value of the cell
@@ -97,10 +93,9 @@ void setGrid(Board* b, char* newGrid){
 }
 
 /**
- * \fn void floodBoard(board b, size_t size, Cell oldColor, Cell newColor, int x, int y)
+ * \fn void floodBoard(Board* b, char oldColor, char newColor, int x, int y)
  * \brief Recursive implementation of flood fill algorithm
  * \param b board to flood
- * \param size Size of board b
  * \param oldColor previous board color
  * \param newColor color of the flood
  * \param x X position to flood
@@ -127,12 +122,18 @@ void floodBoard(Board* b, char oldColor, char newColor, unsigned int x, unsigned
         floodBoard(b, oldColor, newColor, x, y + 1);
 }
 
+/**
+ * \fn void freeBoard(Board* b)
+ * \brief Frees the board
+ * \param b Board to free
+ */
 void freeBoard(Board* b) {
     free(b->grid);
     free(b);
 }
 
 /**
+ * \fn void debug_displayBoard(Board* b)
  * \brief Display the board \a b to stdin
  */
 void debug_displayBoard(Board* b) {
