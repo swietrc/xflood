@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #include "board.h"
 
@@ -59,6 +61,41 @@ Board* initRandomBoard(size_t size) {
 }
 
 /**
+ * \fn board initBoardFromFile(int size)
+ * \brief Initialises a board with file
+ * \param size Width/Height of the board to initialize
+ * \return initialized board whith data from file
+*/
+Board* initBoardFromFile (size_t size, const char* filePath) {
+    // Open File
+    int fp;
+    if ((fp = open(filePath, O_RDONLY)) == -1) {
+        perror("error opening grid file");
+    }
+
+    size_t board_size = size * size;
+
+    Board* b = malloc(sizeof(Board));
+    b->grid = calloc(board_size, sizeof(char));
+    b->size = size;
+    char currentColor = '\0';
+    int currentCellNumber = 0;
+    int retRead;
+
+    while (0 != (retRead = read(fp, &currentColor, sizeof(char)))) {
+        if(retRead == -1) perror("error reading grid file");
+        else{
+            if(currentColor != '\n'){
+                b->grid[currentCellNumber] = currentColor;
+                currentCellNumber++;
+            }
+        }
+    }
+
+    return b;
+}
+
+/**
  * \fn char getBoardCell(Board* b, int x, int y)
  * \brief Get value of a specific cell on the board
  * \param b the board
@@ -83,13 +120,20 @@ void setBoardCell(Board* b, unsigned int x, unsigned int y, char color) {
 }
 
 /**
- * Sets the Board's grid
- * @param b The board that will hold the new grid
- * @param newGrid The new grid, must be of the same size as the board
+ * \fn void setGrid(Board* b, char* newGrid)
+ * \brief Sets the Board's grid
+ * \param b The board that will hold the new grid
+ * \param newGrid The new grid, must be of the same size as the board
  */
 void setGrid(Board* b, char* newGrid){
-    free(b->grid);
-    b->grid = newGrid;
+    if(b->grid != NULL)
+        free(b->grid);
+
+    unsigned int numberOfCells = b->size * b->size;
+    b->grid = malloc(numberOfCells * sizeof(char));
+    for(unsigned int i=0; i<numberOfCells; i++){
+        b->grid[i] = newGrid[i];
+    }
 }
 
 /**
@@ -124,7 +168,7 @@ void floodBoard(Board* b, char oldColor, char newColor, unsigned int x, unsigned
 
 /**
  * \fn void freeBoard(Board* b)
- * \brief Frees the board
+ * \brief Frees the board and its content
  * \param b Board to free
  */
 void freeBoard(Board* b) {
@@ -134,7 +178,7 @@ void freeBoard(Board* b) {
 
 /**
  * \fn void debug_displayBoard(Board* b)
- * \brief Display the board \a b to stdin
+ * \brief Display the board b to stdout
  */
 void debug_displayBoard(Board* b) {
     // char* cchar[6] = { "\e[31m0\e[0m", "\e[92m1\e[0m", "\e[34m2\e[0m", "\e[93m3\e[0m", "\e[38;5;166m4\e[0m", "\e[35m5\e[0m" };
@@ -146,12 +190,12 @@ void debug_displayBoard(Board* b) {
 }
 
 /**
- * Compare two boards (assuming they both have the size of b1)
+ * \fn bool areSimilarBoards(Board* b1, Board* b2)
+ * \brief Compare two boards (assuming they both have the size of b1)
  * they will be considered similar if the color of the cells in the same spot is the same on both boards.
- * @param b1 first board
- * @param b2 second board
- * @param size The size of both boards
- * @return true if they are similar, false otherwise
+ * \param b1 first board
+ * \param b2 second board
+ * \return true if they are similar, false otherwise
  */
 bool areSimilarBoards(Board* b1, Board* b2) {
     size_t size = b1->size;
@@ -166,9 +210,10 @@ bool areSimilarBoards(Board* b1, Board* b2) {
 }
 
 /**
- * Checks if all the cells on the board's grid are of the same color
- * @param b the board to check
- * @retrun true if the board is colored with only one color, false otherwise
+ * \fn bool isBoardOneColored(Board* b)
+ * \brief Checks if all the cells on the board's grid are of the same color
+ * \param b The board to check
+ * \retrun true if the board is colored with only one color, false otherwise
  */
 bool isBoardOneColored(Board* b){
     // the board color is the color of the first cell (in top left corner of the grid)

@@ -13,6 +13,7 @@ extern const char colours[NB_COLOURS];
 
 Board* initBoard(size_t size);
 Board* initRandomBoard(size_t size);
+Board* initBoardFromFile (size_t size, const char* filePath);
 char getBoardCell(Board* b, unsigned int x, unsigned int y);
 void setBoardCell(Board* b, unsigned int x, unsigned int y, char color);
 void setGrid(Board* b, char* newGrid);
