@@ -75,7 +75,7 @@ char getBoardCell(Board* b, int x, int y) {
 /**
  * \fn void setBoardCell(Board* b, int x, int y, char color)
  * \brief Set value of a specific cell on the board
- * \param b
+ * \param b the board
  * \param x X coordinate of the cell
  * \param y Y coordinate of the cell
  * \param color new value of the cell
