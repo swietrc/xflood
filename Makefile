@@ -7,6 +7,9 @@ all: src/main.c src/board.c src/board.h
 tests: test/tests.c src/board.c src/board.h
 	$(CC) test/tests.c src/board.c -o tests $(FLAGS) -lcunit
 
-.PHONY: docs
+.PHONY: docs clean
 docs:
 	doxygen ./Doxyfile
+
+clean:
+	rm -rf *.o ; rm -rf docs/
