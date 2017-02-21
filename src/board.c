@@ -16,9 +16,13 @@
 
 #include "board.h"
 
+/**
+ * \struct board
+ * \brief contains size and data of the board
+ */
 struct board {
-    size_t size;
-    char* grid;
+    size_t size; //!< Width/Height of the board
+    char* grid;  //!< Array of char representing the board's grid
 };
 
 /* Conversion table for the rand() function
@@ -213,7 +217,7 @@ bool areSimilarBoards(Board* b1, Board* b2) {
  * \fn bool isBoardOneColored(Board* b)
  * \brief Checks if all the cells on the board's grid are of the same color
  * \param b The board to check
- * \retrun true if the board is colored with only one color, false otherwise
+ * \return true if the board is colored with only one color, false otherwise
  */
 bool isBoardOneColored(Board* b){
     // the board color is the color of the first cell (in top left corner of the grid)
