@@ -47,3 +47,20 @@ To run all the tests :
 $ make tests
 $ ./tests
 ```
+
+##How to generate documentation with doxygen
+
+You first need to install [Doxygen](http://www.stack.nl/~dimitri/doxygen/download.html) and [Graphviz (a graph visualization software)](http://www.graphviz.org/Download..php).
+If you are on a debian-like OS, you can install those directly from the repositories :
+```bash
+$ sudo apt-get install doxygen
+$ sudo apt-get install graphviz
+```
+
+To generate the doc :
+
+```bash
+$ make docs
+```
+
+An HTML document *./docs/html/index.html* is created.
