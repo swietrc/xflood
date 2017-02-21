@@ -1,10 +1,15 @@
 /**
  *  \file main.c
+ *  \author Camille Schnell
  *  \author Simon Wietrich
+ *  \author Pierre Genthon
+ *  \author Celestin Caumes
  **/
 
 #include <stdio.h>
+#include <time.h>
 #include <SDL2/SDL.h>
+
 
 /**
  * \fn
