@@ -45,8 +45,8 @@ void test_Board_floodBoard() {
     const char c1 = colours[0];
     const char c2 = colours[1];
     const char c3 = colours[2];
-    #define NB_OF_GRIDS 6
-    #define GRID_SIZE 3
+#define NB_OF_GRIDS 6
+#define GRID_SIZE 3
     char gridsInOrder[NB_OF_GRIDS][GRID_SIZE * GRID_SIZE] = {
             {
                     c1, c2, c3,
@@ -160,12 +160,8 @@ void test_Board_isBoardOneColored() {
     freeBoard(b2);
 }
 
-int main() {
-    srand(time(NULL));
-    CU_pSuite pSuite = NULL;
-    CU_initialize_registry();
-
-    pSuite = CU_add_suite("Testing elementary data structure and operations on them", NULL, NULL);
+void addAllBoardTests(){
+    CU_pSuite pSuite = CU_add_suite("Board elementary data structure and operations on them", NULL, NULL);
 
     CU_add_test(pSuite, "initBoard() should return a non null pointer", test_Board_initBoard);
     CU_add_test(pSuite, "initRandomBoard() should produce a different board each time it is executed", test_Board_initRandom);
@@ -173,16 +169,5 @@ int main() {
     CU_add_test(pSuite, "getBoardCell() should return the correct value at a given coordinate pair", test_Board_getBoardCell);
     CU_add_test(pSuite, "setBoardCell() should set the correct value on grid at given X Y coords", test_Board_setBoardCell);
     CU_add_test(pSuite, "isBoardOneColored() should return true if the board is one-colored and false otherwise", test_Board_isBoardOneColored);
-    CU_add_test(pSuite, "floodBoard() should flood correctly", test_Board_floodBoard);
-
-    // output to stdout
-    CU_basic_set_mode(CU_BRM_VERBOSE);
-    CU_basic_run_tests();
-
-    // automated mode (output to xml)
-    CU_set_output_filename("allTests");
-    CU_automated_run_tests();
-
-    CU_cleanup_registry();
-    return 0;
+    CU_add_test(pSuite, "floodBoard() should flood the board correctly with a given scenario", test_Board_floodBoard);
 }

@@ -79,5 +79,6 @@ Xflood
 
 ### Test executables
 
-tests
-allTests-Results.xml
+test/allTests
+test/results/allTests-Results.xml
+test/results/allTests-Listing.xml

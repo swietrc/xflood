@@ -15,7 +15,6 @@ If it's not already installed, install the common build tools (it includes "make
 $ sudo apt-get install build-essential
 ```
 
-
 You also need to install [the SDL library](https://www.libsdl.org/),
 If you are on a debian-like OS, you can install it directly from the repositories :
 ```bash
@@ -44,6 +43,7 @@ $ sudo apt-get install libcunit1-dev
 To run all the tests :
 
 ```bash
-$ make tests
-$ ./tests
+$ make allTests && ./test/allTests
 ```
+
+Running the tests will also output results in XML files located in test/results 
