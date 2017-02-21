@@ -61,9 +61,10 @@ Board* initRandomBoard(size_t size) {
 }
 
 /**
- * \fn board initBoardFromFile(int size)
+ * \fn Board* initBoardFromFile(size_t size, const char* filePath)
  * \brief Initialises a board with file
  * \param size Width/Height of the board to initialize
+ * \param filePath Path of the file containing data of the board to initialize
  * \return initialized board whith data from file
 */
 Board* initBoardFromFile (size_t size, const char* filePath) {
@@ -96,7 +97,7 @@ Board* initBoardFromFile (size_t size, const char* filePath) {
 }
 
 /**
- * \fn char getBoardCell(Board* b, int x, int y)
+ * \fn char getBoardCell(Board* b, unsigned int x, unsigned int y)
  * \brief Get value of a specific cell on the board
  * \param b the board
  * \param x X coordinate of the cell
@@ -108,7 +109,7 @@ char getBoardCell(Board* b, unsigned int x, unsigned int y) {
 }
 
 /**
- * \fn void setBoardCell(Board* b, int x, int y, char color)
+ * \fn void setBoardCell(Board* b, unsigned int x, unsigned int y, char color)
  * \brief Set value of a specific cell on the board
  * \param b the board
  * \param x X coordinate of the cell
@@ -116,7 +117,7 @@ char getBoardCell(Board* b, unsigned int x, unsigned int y) {
  * \param color new value of the cell
  */
 void setBoardCell(Board* b, unsigned int x, unsigned int y, char color) {
-   b->grid[y * b->size + x] = color; 
+   b->grid[y * b->size + x] = color;
 }
 
 /**
@@ -137,7 +138,7 @@ void setGrid(Board* b, char* newGrid){
 }
 
 /**
- * \fn void floodBoard(Board* b, char oldColor, char newColor, int x, int y)
+ * \fn void floodBoard(Board* b, char oldColor, char newColor, unsigned int x, unsigned int y)
  * \brief Recursive implementation of flood fill algorithm
  * \param b board to flood
  * \param oldColor previous board color
@@ -213,7 +214,7 @@ bool areSimilarBoards(Board* b1, Board* b2) {
  * \fn bool isBoardOneColored(Board* b)
  * \brief Checks if all the cells on the board's grid are of the same color
  * \param b The board to check
- * \retrun true if the board is colored with only one color, false otherwise
+ * \return true if the board is colored with only one color, false otherwise
  */
 bool isBoardOneColored(Board* b){
     // the board color is the color of the first cell (in top left corner of the grid)
