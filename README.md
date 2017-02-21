@@ -32,6 +32,23 @@ This will generate the program which can be executed like so :
 $ ./XFlood
 ```
 
+##How to generate documentation with doxygen
+
+You first need to install [Doxygen](http://www.stack.nl/~dimitri/doxygen/download.html) and [Graphviz (a graph visualization software)](http://www.graphviz.org/Download..php).
+If you are on a debian-like OS, you can install those directly from the repositories :
+```bash
+$ sudo apt-get install doxygen
+$ sudo apt-get install graphviz
+```
+
+To generate the doc :
+
+```bash
+$ make docs
+```
+
+An HTML document *./docs/html/index.html* is created.
+
 ##How to run unit tests
 
 You first need to install [the CUnit test framework](http://cunit.sourceforge.net/).
