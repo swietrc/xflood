@@ -4,7 +4,7 @@
 
 The goal of this project is to reproduce [this game](https://play.google.com/store/apps/details?id=com.wetpalm.colorflood&hl=en)
 
-<div style="text-align: center"><img src="./game.png" width=174 height=310></div>
+<div style="text-align: center"><img src="http://img11.hostingpics.net/thumbs/mini_838547game.png" width=174 height=310></div>
 
 ... and to create a solver for the game that will give the best color suite to play in order to finish the game as fast as possible.
 
