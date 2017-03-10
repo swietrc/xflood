@@ -1,9 +1,13 @@
 /**
  *  \file main.c
+ *  \author Camille Schnell
  *  \author Simon Wietrich
+ *  \author Pierre Genthon
+ *  \author Celestin Caumes
  **/
 
 #include <stdio.h>
+#include <time.h>
 #include <SDL2/SDL.h>
 #include "gameScreen.h"
 #include "board.h"
@@ -29,11 +33,14 @@ void checkEvents(Board* board, SDL_Event mouse_event, SDL_Renderer* ren, SDL_Win
   }
 }
 
+
 /**
  * \fn
  * \return int
  **/
 int main() {
+    srand(time(NULL));
+    
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         printf("SDL_Init Error: %s\n", SDL_GetError());
         return 1;
