@@ -2,8 +2,9 @@
 #define _BOARD_H_
 
 #include <stdint.h>
+#include <stdbool.h>
 
-#define MAX_SIZE   24
+#define MAX_SIZE   18
 #define NB_COLOURS 6
 
 typedef struct board Board;
@@ -12,11 +13,14 @@ extern const char colours[NB_COLOURS];
 
 Board* initBoard(size_t size);
 Board* initRandomBoard(size_t size);
-char getBoardCell(Board* b, int x, int y);
-void setBoardCell(Board* b, int x, int y, char color);
-void floodBoard(Board* b, char oldColor, char newColor, int x, int y);
+Board* initBoardFromFile (size_t size, const char* filePath);
+char getBoardCell(Board* b, unsigned int x, unsigned int y);
+void setBoardCell(Board* b, unsigned int x, unsigned int y, char color);
+void setGrid(Board* b, char* newGrid);
+void floodBoard(Board* b, char oldColor, char newColor, unsigned int x, unsigned int y);
 void freeBoard(Board* b);
 void debug_displayBoard(Board* b);
-// int areSimilarBoards(board b1, board b2, size_t size);
+bool areSimilarBoards(Board* b1, Board* b2);
+bool isBoardOneColored(Board* b);
 
 #endif
