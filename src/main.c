@@ -9,30 +9,14 @@
 #include <stdio.h>
 #include <time.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include "gameScreen.h"
 #include "board.h"
+#include "game.h"
+#include "utils.h"
 
-void checkEvents(Board* board, SDL_Event mouse_event, SDL_Renderer* ren, SDL_Window* win) {
-  switch(mouse_event.type) {
-    case SDL_QUIT:
-      SDL_DestroyRenderer(ren);
-      SDL_DestroyWindow(win);
-      SDL_Quit();
-      exit(0);
-      break;
-    case SDL_MOUSEBUTTONDOWN:
-      updateBoard(board, mouse_event.button.x, mouse_event.button.y);
-      displayGameScreen(board, ren);
-      if(isBoardOneColored(board)) {
-        SDL_DestroyRenderer(ren);
-        SDL_DestroyWindow(win);
-        SDL_Quit();
-        exit(0);
-      }
-      break;
-  }
-}
-
+#define WINDOW_WIDTH 1000
+#define WINDOW_HEIGHT 620
 
 /**
  * \fn
@@ -40,13 +24,13 @@ void checkEvents(Board* board, SDL_Event mouse_event, SDL_Renderer* ren, SDL_Win
  **/
 int main() {
     srand(time(NULL));
-    
+
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         printf("SDL_Init Error: %s\n", SDL_GetError());
         return 1;
     }
 
-    SDL_Window *win = SDL_CreateWindow("Color Flood", 100, 100, 1000, 620, SDL_WINDOW_SHOWN);
+    SDL_Window *win = SDL_CreateWindow("Color Flood", 100, 100, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
     if (win == NULL) {
         printf("SDL_CreateWindow Error: %s\n", SDL_GetError());
         return 1;
@@ -58,19 +42,21 @@ int main() {
         return 1;
     }
 
+    if (TTF_Init() != 0) {
+        printf("TTF_Init Error: %s\n", TTF_GetError());
+        return 1;
+    }
+
+    // Initialize default font
+    defaultFont = TTF_OpenFont("vendor/fonts/Roboto-Regular.ttf", 72); // open a font style and set a size
+
     // Set background to black
     SDL_SetRenderDrawColor( ren, 0, 0, 0, 255 );
 
     // Clear window
     // SDL_RenderClear( ren );
 
-    Board* board = initRandomBoard(MAX_SIZE);
-    SDL_Event mouse_event;
+    runGame(ren, win);
 
-    displayGameScreen(board, ren);
-    while(1) {
-      SDL_WaitEvent(&mouse_event);
-      checkEvents(board, mouse_event, ren, win);
-    }
     return 0;
 }

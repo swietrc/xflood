@@ -4,10 +4,10 @@
 #include "board.h"
 #include <stdint.h>
 #include <stdbool.h>
+#include "game.h"
 
 #define BOARDWIDTH 504
 
-void updateBoard(Board* board, size_t x, size_t y);
-void displayGameScreen(Board* board, SDL_Renderer* ren);
+extern void gameScreen(SDL_Event event, SDL_Renderer* ren, config* conf);
 
 #endif
