@@ -18,7 +18,7 @@ $ sudo apt-get install build-essential
 You also need to install [the SDL library](https://www.libsdl.org/),
 If you are on a debian-like OS, you can install it directly from the repositories :
 ```bash
-$ sudo apt-get install libsdl2-dev libsdl2-ttf-dev
+$ sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev
 ```
 
 Then, just go to the root folder of the project and compile the program with make :
