@@ -78,7 +78,7 @@ static void updateMenu(int x, int y, config* conf, SDL_Renderer* ren) {
     conf->board = initRandomBoard(conf->boardSize);
   }
 
-  printf("x : %d  y : %d\nsize : %d state : %d\n", x, y, conf->boardSize, conf->state);
+  //printf("x : %d  y : %d\nsize : %d state : %d\n", x, y, conf->boardSize, conf->state);
 }
 
 /**

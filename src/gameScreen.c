@@ -28,39 +28,39 @@ static void updateBoard(size_t x, size_t y, config* conf) {
   size_t newX = x / ((BOARDWIDTH / conf->boardSize) + 1); // x position of cell in Board
   size_t newY = y / ((BOARDWIDTH / conf->boardSize) + 1); // y position of cell in Board
   // If user clicks on buttons
-  if(y >= BOARDWIDTH + 20 && y <= BOARDWIDTH + 20 + width) {
-    printf("first case\n");
-    if(x <= width + 2)
+  if(y >= BOARDWIDTH + 25 && y <= BOARDWIDTH + 25 + width + (conf->boardSize - 1) / 6) {
+    if(x <= width + ((conf->boardSize - 1) / 6 ) + 1)
       color = 'R';
-    else if(x >= width + 2 && x <= width * 2 + 2)
+    else if(x >= width + ((conf->boardSize - 1) / 6 ) + 1 && x <= width * 2 + ((conf->boardSize - 1) / 6 ) * 2 + 1)
       color = 'G';
-    else if(x >= width * 2 + 2 && x <= width * 3 + 2)
+    else if(x >= width * 2 + ((conf->boardSize - 1) / 6 ) * 2 + 1 && x <= width * 3 + ((conf->boardSize - 1) / 6 ) * 3 + 1)
       color = 'B';
-    else if(x >= width * 3 + 2 && x <= width * 4 + 2)
+    else if(x >= width * 3 + ((conf->boardSize - 1) / 6 ) * 3 + 1 && x <= width * 4 + ((conf->boardSize - 1) / 6 ) * 4 + 1)
       color = 'Y';
-    else if(x >= width * 4 + 2 && x <= width * 5 + 2)
+    else if(x >= width * 4 + ((conf->boardSize - 1) / 6 ) * 4 + 1 && x <= width * 5 + ((conf->boardSize - 1) / 6 ) * 5 + 1)
       color = 'O';
-    else if(x >= width * 5 + 2 && x <= width * 6 + 2)
+    else if(x >= width * 5 + ((conf->boardSize - 1) / 6 ) * 5 + 1 && x <= width * 6 + ((conf->boardSize - 1) / 6 ) * 6 + 1)
       color = 'M';
   }
   else // User clicked on the board
   {
-    printf("else\n");
     if(newX < conf->boardSize)
       color = getBoardCell(conf->board, newX, newY);
   }
 
-  printf("COLOR : %c\nWIDTH : %d  X : %d  Y : %d\nNX: %d  NY : %d\n", color, width, x, y, newX, newY);
+  //printf("COLOR : %c\nWIDTH : %d  X : %d  Y : %d\nNX: %d  NY : %d\n", color, width, x, y, newX, newY);
   // Check if color contains a correct value
   if(!(color != 'R' && color != 'G' && color != 'B' && color != 'Y' && color != 'O' && color != 'M') && color != getBoardCell(conf->board, 0, 0)){
     floodBoard(conf->board, getBoardCell(conf->board, 0, 0), color, 0, 0);
     conf->turnsLeft--;
     if(isBoardOneColored(conf->board)){
       printf("gagné\n");
+      freeBoard(conf->board); // free Board at end of game
       conf->state = menuState;
     }
     else if(conf->turnsLeft == 0){
       printf("perdu\n");
+      freeBoard(conf->board); // free Board at end of game
       conf->state = menuState;
     }
   }
@@ -167,6 +167,10 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
 
     // Render board
     SDL_RenderFillRect( ren, &rect );
+
+    // Free surface and texture
+    SDL_FreeSurface(surfaceMessage);
+    SDL_DestroyTexture(Message);
   }
 }
 
