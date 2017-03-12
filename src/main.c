@@ -17,7 +17,8 @@
 #define WINDOW_HEIGHT 620
 
 /**
- * \fn Initializes window and calls the function to run the game
+ * \fn int main()
+ * \brief Initializes window and calls the function to run the game
  * \return int
  **/
 int main() {
