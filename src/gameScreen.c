@@ -15,8 +15,6 @@
 #include "game.h"
 #include "utils.h"
 
-size_t boardHeight = BOARDWIDTH;
-
 /**
  * \fn void updateBoard(Board* board, size_t x, size_t y)
  * \brief Updates the board with the color chosen by the user (color of the cell he clicked)
@@ -30,7 +28,7 @@ static void updateBoard(size_t x, size_t y, config* conf) {
   size_t newX = x / ((BOARDWIDTH / conf->boardSize) + 1); // x position of cell in Board
   size_t newY = y / ((BOARDWIDTH / conf->boardSize) + 1); // y position of cell in Board
   // If user clicks on buttons
-  if(y >= boardHeight + 20 && y <= boardHeight + 20 + width) {
+  if(y >= BOARDWIDTH + 20 && y <= BOARDWIDTH + 20 + width) {
     printf("first case\n");
     if(x <= width + 2)
       color = 'R';
@@ -52,9 +50,9 @@ static void updateBoard(size_t x, size_t y, config* conf) {
       color = getBoardCell(conf->board, newX, newY);
   }
 
-  //printf("COLOR : %c\nWIDTH : %d  X : %d  Y : %d\nNX: %d  NY : %d\n", color, width, x, y, newX, newY);
+  printf("COLOR : %c\nWIDTH : %d  X : %d  Y : %d\nNX: %d  NY : %d\n", color, width, x, y, newX, newY);
   // Check if color contains a correct value
-  if(!(color != 'R' && color != 'G' && color != 'B' && color != 'Y' && color != 'O' && color != 'M') ){
+  if(!(color != 'R' && color != 'G' && color != 'B' && color != 'Y' && color != 'O' && color != 'M') && color != getBoardCell(conf->board, 0, 0)){
     floodBoard(conf->board, getBoardCell(conf->board, 0, 0), color, 0, 0);
     conf->turnsLeft--;
     if(isBoardOneColored(conf->board)){
@@ -88,9 +86,9 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
       rect.w = (BOARDWIDTH / conf->boardSize);
       rect.h = (BOARDWIDTH / conf->boardSize);
 
-      // if conf->boardSize is > 40, size of board will be > BOARDWIDTH
+      /*// if conf->boardSize is > 40, size of board will be > BOARDWIDTH
       if( y == conf->boardSize - 1 && conf->boardSize > 40)
-        boardHeight = y + (BOARDWIDTH / conf->boardSize)*y;
+        boardHeight = y + (BOARDWIDTH / conf->boardSize)*y;*/
 
       // Set render color ( rect will be rendered in this color )
       switch(getBoardCell(conf->board, x, y)) {
@@ -124,7 +122,7 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
     int width = BOARDWIDTH / 6;
     SDL_Rect rect;
     rect.x = width*i + ((conf->boardSize - 1) / 6 ) * i + i;
-    rect.y = boardHeight + 20;
+    rect.y = BOARDWIDTH + 25;
     rect.w = width + (conf->boardSize - 1) / 6;
     rect.h = width + (conf->boardSize - 1) / 6;
 
@@ -150,7 +148,7 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
         break;
     }
 
-    /** Writing label for size of board **/
+    /** Writing label for size of board and turns left**/
     SDL_Color messageColor = {255, 255, 255, 255};
 
     char turnsLeft[50];

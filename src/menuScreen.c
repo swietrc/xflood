@@ -15,14 +15,50 @@
 #include "utils.h"
 #include "menuScreen.h"
 
-static void updateMenu(int x, int y, config* conf) {
+static void drawButton(char* txt, int x, int y, int w, int h, SDL_Color txtColor, SDL_Color backgroundColor, SDL_Renderer* ren) {
+  SDL_Surface* surfaceText = TTF_RenderText_Blended(defaultFont, txt, txtColor);
+  SDL_Texture* text = SDL_CreateTextureFromSurface(ren, surfaceText);
+
+  SDL_Rect text_rect;
+  text_rect.x = x;  //controls the rect's x coordinate
+  text_rect.y = y; // controls the rect's y coordinte
+  text_rect.w = w; // controls the width of the rect
+  text_rect.h = h; // controls the height of the rect
+
+  SDL_SetRenderDrawColor( ren, backgroundColor.r, backgroundColor.g,  backgroundColor.b, backgroundColor.a ); // Color background of button
+  SDL_RenderFillRect( ren, &text_rect );
+  SDL_RenderCopy(ren, text, NULL, &text_rect);
+
+  // Free surface and texture
+  SDL_FreeSurface(surfaceText);
+  SDL_DestroyTexture(text);
+}
+
+static void updateMenu(int x, int y, config* conf, SDL_Renderer* ren) {
   if(y >= 300 && y <= 400) { // size buttons
-    if(x >= 270 && x <= 370)
+    if(x >= 270 && x <= 370) {
       conf->boardSize = 12;
-    else if(x >= 410  && x <= 510)
+      /** Change current button background when clicked **/
+      SDL_Color backColorCurrent = {50, 50, 50, 255};
+      SDL_Color backColor = {50, 50, 50, 255};
+      // First button
+      SDL_Color messageColorB1 = {0, 0, 255, 255};
+      drawButton("12 x 12", 270, 300, 100, 50, messageColorB1, backColorCurrent, ren);
+      // Second button
+      SDL_Color messageColorB2 = {0, 0, 255, 255};
+      drawButton("18 x 18", 410, 300, 100, 50, messageColorB2, backColor, ren);
+      // Third button
+      SDL_Color messageColorB3 = {0, 0, 255, 255};
+      drawButton("24 x 24", 550, 300, 100, 50, messageColorB3, backColor, ren);
+    }
+    else if(x >= 410  && x <= 510) {
       conf->boardSize = 18;
-    else if(x >= 550 && x <= 650)
+
+    }
+    else if(x >= 550 && x <= 650) {
       conf->boardSize = 24;
+
+    }
   }
   else if(y >= 400 && y <= 550 && x >= 280 && x <= 680){
     conf->state = gameState;
@@ -43,25 +79,6 @@ static void updateMenu(int x, int y, config* conf) {
   }
 
   printf("x : %d  y : %d\nsize : %d state : %d\n", x, y, conf->boardSize, conf->state);
-}
-
-static void drawButton(char* txt, int x, int y, int w, int h, SDL_Color txtColor, SDL_Color backgroundColor, SDL_Renderer* ren) {
-  SDL_Surface* surfaceText = TTF_RenderText_Blended(defaultFont, txt, txtColor);
-  SDL_Texture* text = SDL_CreateTextureFromSurface(ren, surfaceText);
-
-  SDL_Rect text_rect;
-  text_rect.x = x;  //controls the rect's x coordinate
-  text_rect.y = y; // controls the rect's y coordinte
-  text_rect.w = w; // controls the width of the rect
-  text_rect.h = h; // controls the height of the rect
-
-  SDL_SetRenderDrawColor( ren, backgroundColor.r, backgroundColor.g,  backgroundColor.b, backgroundColor.a ); // Color background of button
-  SDL_RenderFillRect( ren, &text_rect );
-  SDL_RenderCopy(ren, text, NULL, &text_rect);
-
-  // Free surface and texture
-  SDL_FreeSurface(surfaceText);
-  SDL_DestroyTexture(text);
 }
 
 /**
@@ -129,15 +146,15 @@ static void displayMenuScreen(SDL_Renderer* ren) {
   SDL_DestroyTexture(textureImage);
 }
 
-static void menuScreenCheckEvents(SDL_Event event, config* conf) {
+static void menuScreenCheckEvents(SDL_Event event, config* conf, SDL_Renderer* ren) {
   switch(event.type) {
     case SDL_MOUSEBUTTONDOWN:
-      updateMenu(event.button.x, event.button.y, conf);
+      updateMenu(event.button.x, event.button.y, conf, ren);
       break;
   }
 }
 
 extern void menuScreen(SDL_Event event, SDL_Renderer* ren, config* conf) {
-  menuScreenCheckEvents(event, conf);
+  menuScreenCheckEvents(event, conf, ren);
   displayMenuScreen(ren);
 }
