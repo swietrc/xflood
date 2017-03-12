@@ -1,6 +1,6 @@
 /**
  * \file game.c
- * File processing game
+ * Game loop/logic file
  * \author Simon Wietrich
  * \author Pierre Genthon
  * \author Celestin Caumes
@@ -15,6 +15,13 @@
 #include "board.h"
 #include "game.h"
 
+/**
+ * \fn void checkEvents(SDL_Event event, SDL_Renderer* ren, SDL_Window* win)
+ * \brief generic event handler
+ * \param event SDL Event to be handled
+ * \param ren SDL renderer on which to draw
+ * \param win Current game window
+ */
 void checkEvents(SDL_Event event, SDL_Renderer* ren, SDL_Window* win) {
   switch(event.type) {
     case SDL_QUIT:
@@ -27,6 +34,12 @@ void checkEvents(SDL_Event event, SDL_Renderer* ren, SDL_Window* win) {
   }
 }
 
+/**
+ * \fn void runGame(SDL_Renderer* ren, SDL_Window* win)
+ * \brief Game loop function
+ * \param ren Current game renderer
+ * \param win Current game window
+ */
 void runGame(SDL_Renderer* ren, SDL_Window* win) {
   SDL_Event event;
 
@@ -37,10 +50,17 @@ void runGame(SDL_Renderer* ren, SDL_Window* win) {
   conf.turnsLeft = conf.allowedTurns;
 
   while(1) {
+    // Wait for event
     SDL_WaitEvent(&event);
+
+    // Handle event
+    checkEvents(event, ren, win);
+
+    // Clear the screen
     SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
     SDL_RenderClear(ren);
-    checkEvents(event, ren, win);
+    
+    // Draw things
     switch(conf.state) {
       case menuState:
         menuScreen(event, ren, &conf);
@@ -49,6 +69,7 @@ void runGame(SDL_Renderer* ren, SDL_Window* win) {
         gameScreen(event, ren, &conf);
         break;
     }
+    // Render things
     SDL_RenderPresent(ren); // Render the board to the screen
   }
 }
