@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define MAX_SIZE   24
+#define MAX_SIZE   18
 #define NB_COLOURS 6
 
 typedef struct board Board;
