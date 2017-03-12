@@ -10,8 +10,6 @@
 #include <time.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-#include "gameScreen.h"
-#include "board.h"
 #include "game.h"
 #include "utils.h"
 
@@ -52,9 +50,6 @@ int main() {
 
     // Set background to black
     SDL_SetRenderDrawColor( ren, 0, 0, 0, 255 );
-
-    // Clear window
-    // SDL_RenderClear( ren );
 
     runGame(ren, win);
 
