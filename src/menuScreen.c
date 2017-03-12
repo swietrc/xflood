@@ -11,10 +11,23 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
+
 #include "board.h"
 #include "utils.h"
 #include "menuScreen.h"
 
+/**
+ * \fn void drawButton(char* txt, int x, int y, int w, int h, SDL_Color txtColor, SDL_Color backgroundColor, SDL_Renderer* ren)
+ * \brief Draws a button on screen
+ * \param txt Text to display on the button
+ * \param x X position of the button
+ * \param y Y position of the button
+ * \param w Width of the button
+ * \param h Height of the button
+ * \param txtColor Color of the text of the button
+ * \param backgroundColor Color of the button
+ * \param ren Renderer on which to draw the button
+ */
 static void drawButton(char* txt, int x, int y, int w, int h, SDL_Color txtColor, SDL_Color backgroundColor, SDL_Renderer* ren) {
     SDL_Surface* surfaceText = TTF_RenderText_Blended(defaultFont, txt, txtColor);
     SDL_Texture* text = SDL_CreateTextureFromSurface(ren, surfaceText);
