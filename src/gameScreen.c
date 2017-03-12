@@ -16,11 +16,11 @@
 #include "utils.h"
 
 /**
- * \fn void updateBoard(Board* board, size_t x, size_t y)
+ * \fn void updateBoard(size_t x, size_t y, config* conf)
  * \brief Updates the board with the color chosen by the user (color of the cell he clicked)
- * \param board Board to update
  * \param x X coordinate of the cell chosen by the user
  * \param y Y coordinate of the cell chosen by the user
+ * \param conf Config struct containing board, boardSize and game/menuState
  */
 static void updateBoard(size_t x, size_t y, config* conf) {
   char color;
@@ -68,10 +68,10 @@ static void updateBoard(size_t x, size_t y, config* conf) {
 
 
 /**
- * \fn void displayGameScreen(Board* board, SDL_Renderer* ren)
+ * \fn void displayGameScreen(SDL_Renderer* ren, config* conf)
  * \brief Displays the board in the game window
- * \param board Board to display
  * \param ren SDL_Renderer object used to display the board
+ * \param conf Config struct containing board, boardSize and game/menuState
  */
 static void displayGameScreen(SDL_Renderer* ren, config* conf) {
   // Set background to black
@@ -174,6 +174,12 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
   }
 }
 
+/**
+ * \fn void gameScreenCheckEvents(SDL_Event event, config* conf)
+ * \brief Function checking for events and treating them
+ * \param event SDL_Event object used to check and treat the current event
+ * \param conf Config struct containing board, boardSize and game/menuState
+ */
 static void gameScreenCheckEvents(SDL_Event event, config* conf) {
   switch(event.type) {
     case SDL_MOUSEBUTTONDOWN:
@@ -188,6 +194,13 @@ static void gameScreenCheckEvents(SDL_Event event, config* conf) {
   }
 }
 
+/**
+ * \fn void gameScreen(SDL_Event event, SDL_Renderer* ren, config* conf)
+ * \brief Main function of gameScreen, checking for events and displaying the gameScreen
+ * \param event SDL_Event object used to check and treat the current event
+ * \param ren SDL_Renderer object used to display the board
+ * \param conf Config struct containing board, boardSize and game/menuState
+ */
 extern void gameScreen(SDL_Event event, SDL_Renderer* ren, config* conf) {
   gameScreenCheckEvents(event, conf);
   displayGameScreen(ren, conf);
