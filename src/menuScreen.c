@@ -16,6 +16,8 @@
 #include "utils.h"
 #include "menuScreen.h"
 
+static int needsRefresh = 1;
+
 /**
  * \fn void drawButton(char* txt, int x, int y, int w, int h, SDL_Color txtColor, SDL_Color backgroundColor, SDL_Renderer* ren)
  * \brief Draws a button on screen
@@ -91,6 +93,7 @@ static void handleMenuClicks(int x, int y, config* conf) {
  * \param ren SDL_Renderer object used to display the menu
  * \param conf config* a pointer to the application's configuration data structure
  */
+
 static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
     // Set background to black
     SDL_SetRenderDrawColor( ren, 0, 0, 0, 255 );
@@ -114,6 +117,7 @@ static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
     SDL_RenderCopy(ren, Message, NULL, &Message_rect);
 
     /** Creation of 3 buttons for the board size **/
+
     SDL_Color backColorCurrent = {0, 150, 0, 255};
     SDL_Color backColor = {50, 50, 50, 255};
     // First button
@@ -158,10 +162,13 @@ static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
  * \param conf config* a pointer to the application's configuration data structure
  */
 static void menuScreenCheckEvents(SDL_Event event, config* conf) {
+    needsRefresh = 1;
     switch(event.type) {
         case SDL_MOUSEBUTTONDOWN:
             handleMenuClicks(event.button.x, event.button.y, conf);
             break;
+        default: // its useless to redraw the screen if no event was handled, the ui state wasn't changed
+            needsRefresh = 0;
     }
 }
 
@@ -173,6 +180,12 @@ static void menuScreenCheckEvents(SDL_Event event, config* conf) {
  * \param conf config* a pointer to the application's configuration data structure
  */
 extern void menuScreen(SDL_Event event, SDL_Renderer* ren, config* conf) {
+    if(needsRefresh){
+        SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
+        SDL_RenderClear(ren);
+        displayMenuScreen(ren, conf);
+        SDL_RenderPresent(ren); // Render the board to the screen
+    }
+
     menuScreenCheckEvents(event, conf);
-    displayMenuScreen(ren, conf);
 }

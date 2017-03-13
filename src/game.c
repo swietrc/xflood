@@ -59,8 +59,7 @@ void runGame(SDL_Renderer* ren, SDL_Window* win) {
     // Clear the screen
     SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
     SDL_RenderClear(ren);
-    
-    // Draw things
+
     switch(conf.state) {
       case menuState:
         menuScreen(event, ren, &conf);
@@ -69,7 +68,5 @@ void runGame(SDL_Renderer* ren, SDL_Window* win) {
         gameScreen(event, ren, &conf);
         break;
     }
-    // Render things
-    SDL_RenderPresent(ren); // Render the board to the screen
   }
 }

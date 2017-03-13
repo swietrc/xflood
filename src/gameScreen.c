@@ -15,14 +15,16 @@
 #include "game.h"
 #include "utils.h"
 
+static int needsRefresh = 1;
+
 /**
- * \fn void updateBoard(size_t x, size_t y, config* conf)
+ * \fn void handleBoardClicks(size_t x, size_t y, config* conf)
  * \brief Updates the board with the color chosen by the user (color of the cell he clicked)
  * \param x X coordinate of the cell chosen by the user
  * \param y Y coordinate of the cell chosen by the user
  * \param conf Config struct containing board, boardSize and game/menuState
  */
-static void updateBoard(size_t x, size_t y, config* conf) {
+static void handleBoardClicks(size_t x, size_t y, config* conf) {
   char color;
   size_t width = BOARDWIDTH / 6;
   size_t newX = x / ((BOARDWIDTH / conf->boardSize) + 1); // x position of cell in Board
@@ -183,13 +185,7 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
 static void gameScreenCheckEvents(SDL_Event event, config* conf) {
   switch(event.type) {
     case SDL_MOUSEBUTTONDOWN:
-      updateBoard(event.button.x, event.button.y, conf);
-      /*if(isBoardOneColored(board)) {
-        SDL_DestroyRenderer(ren);
-        SDL_DestroyWindow(win);
-        SDL_Quit();
-        exit(0);
-      }*/
+      handleBoardClicks(event.button.x, event.button.y, conf);
       break;
   }
 }
@@ -202,6 +198,12 @@ static void gameScreenCheckEvents(SDL_Event event, config* conf) {
  * \param conf Config struct containing board, boardSize and game/menuState
  */
 extern void gameScreen(SDL_Event event, SDL_Renderer* ren, config* conf) {
+  if(needsRefresh){
+    SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
+    SDL_RenderClear(ren);
+    displayGameScreen(ren, conf);
+    SDL_RenderPresent(ren); // Render the board to the screen
+  }
+
   gameScreenCheckEvents(event, conf);
-  displayGameScreen(ren, conf);
 }
