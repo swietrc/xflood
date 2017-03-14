@@ -3,6 +3,9 @@ FLAGS=-Wall -Wextra --std=c99
 
 ################# MODULES ####################
 
+utils.o: src/utils.c src/utils.h
+	$(CC) -c src/utils.c $(FLAGS)
+
 board.o: src/board.c src/board.h
 	$(CC) -c src/board.c $(FLAGS)
 
@@ -23,8 +26,8 @@ allTests.o: test/allTests.c boardTests.o
 
 ############## REGULAR TARGETS ################
 
-all: src/main.c board.o gameScreen.o game.o menuScreen.o
-	$(CC) src/main.c board.o gameScreen.o game.o menuScreen.o -o Xflood $(FLAGS) -lSDL2 -lSDL2_ttf -lSDL2_image
+all: src/main.c board.o gameScreen.o game.o menuScreen.o utils.o
+	$(CC) src/main.c board.o gameScreen.o game.o menuScreen.o utils.o -o Xflood $(FLAGS) -lSDL2 -lSDL2_ttf -lSDL2_image
 
 allTests: allTests.o boardTests.o board.o
 	$(CC) allTests.o boardTests.o board.o -o test/allTests $(FLAGS) -lcunit

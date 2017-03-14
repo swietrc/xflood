@@ -50,7 +50,11 @@ static void handleBoardClicks(size_t x, size_t y, config* conf) {
       color = getBoardCell(conf->board, newX, newY);
   }
 
-  //printf("COLOR : %c\nWIDTH : %d  X : %d  Y : %d\nNX: %d  NY : %d\n", color, width, x, y, newX, newY);
+  // click on back-to-menu button
+  if(x >= BOARDWIDTH + 105 && x <=  BOARDWIDTH + 405 && y >= 540 && y <= 620){
+    conf->state = menuState;
+  }
+
   // Check if color contains a correct value
   if(!(color != 'R' && color != 'G' && color != 'B' && color != 'Y' && color != 'O' && color != 'M') && color != getBoardCell(conf->board, 0, 0)){
     floodBoard(conf->board, getBoardCell(conf->board, 0, 0), color, 0, 0);
@@ -88,30 +92,26 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
       rect.w = (BOARDWIDTH / conf->boardSize);
       rect.h = (BOARDWIDTH / conf->boardSize);
 
-      /*// if conf->boardSize is > 40, size of board will be > BOARDWIDTH
-      if( y == conf->boardSize - 1 && conf->boardSize > 40)
-        boardHeight = y + (BOARDWIDTH / conf->boardSize)*y;*/
-
       // Set render color ( rect will be rendered in this color )
       switch(getBoardCell(conf->board, x, y)) {
         case 'R':
           SDL_SetRenderDrawColor( ren, 255, 0, 0, 255 );
-          break;
+              break;
         case 'G':
           SDL_SetRenderDrawColor( ren, 0, 255, 0, 255 );
-          break;
+              break;
         case 'B':
           SDL_SetRenderDrawColor( ren, 0, 0, 255, 255 );
-          break;
+              break;
         case 'Y':
           SDL_SetRenderDrawColor( ren, 255, 255, 0, 255 );
-          break;
+              break;
         case 'O':
           SDL_SetRenderDrawColor( ren, 0, 255, 255, 255 );
-          break;
+              break;
         case 'M':
           SDL_SetRenderDrawColor( ren, 255, 0, 255, 255 );
-          break;
+              break;
       }
 
       // Render rect
@@ -132,22 +132,22 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
     switch(i) {
       case 0:
         SDL_SetRenderDrawColor( ren, 255, 0, 0, 255 );
-        break;
+            break;
       case 1:
         SDL_SetRenderDrawColor( ren, 0, 255, 0, 255 );
-        break;
+            break;
       case 2:
         SDL_SetRenderDrawColor( ren, 0, 0, 255, 255 );
-        break;
+            break;
       case 3:
         SDL_SetRenderDrawColor( ren, 255, 255, 0, 255 );
-        break;
+            break;
       case 4:
         SDL_SetRenderDrawColor( ren, 0, 255, 255, 255 );
-        break;
+            break;
       case 5:
         SDL_SetRenderDrawColor( ren, 255, 0, 255, 255 );
-        break;
+            break;
     }
 
     /** Writing label for size of board and turns left**/
@@ -173,6 +173,11 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
     // Free surface and texture
     SDL_FreeSurface(surfaceMessage);
     SDL_DestroyTexture(Message);
+
+    // back to menu button
+    SDL_Color backToMenuTxtColor = {0, 0, 100, 255};
+    SDL_Color backToMenuBgColor = {70, 70, 70, 255};
+    drawButton(" Retour au menu ", BOARDWIDTH + 105, 540, 300, 80, backToMenuTxtColor, backToMenuBgColor, ren);
   }
 }
 
@@ -183,10 +188,13 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
  * \param conf Config struct containing board, boardSize and game/menuState
  */
 static void gameScreenCheckEvents(SDL_Event event, config* conf) {
+  needsRefresh = 1;
   switch(event.type) {
     case SDL_MOUSEBUTTONDOWN:
       handleBoardClicks(event.button.x, event.button.y, conf);
-      break;
+          break;
+    default:
+      needsRefresh = 0;
   }
 }
 
@@ -202,7 +210,7 @@ extern void gameScreen(SDL_Event event, SDL_Renderer* ren, config* conf) {
     SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
     SDL_RenderClear(ren);
     displayGameScreen(ren, conf);
-    SDL_RenderPresent(ren); // Render the board to the screen
+    SDL_RenderPresent(ren);
   }
 
   gameScreenCheckEvents(event, conf);
