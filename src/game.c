@@ -39,6 +39,7 @@ void checkEvents(SDL_Event event, SDL_Renderer* ren, SDL_Window* win) {
  * \brief Game loop function
  * \param ren Current game renderer
  * \param win Current game window
+ * \param conf The application configuration data structure
  */
 void runGame(SDL_Renderer* ren, SDL_Window* win, config* conf) {
   SDL_Event event;
