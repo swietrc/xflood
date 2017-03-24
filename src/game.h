@@ -4,7 +4,7 @@
 #include "board.h"
 #include "config.h"
 
-void runGame(SDL_Renderer* ren, SDL_Window* win);
+void runGame(SDL_Renderer* ren, SDL_Window* win, config* conf);
 void checkEvents(SDL_Event event, SDL_Renderer* ren, SDL_Window* win);
 
 #endif

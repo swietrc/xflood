@@ -12,6 +12,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "game.h"
 #include "utils.h"
+#include "config.h"
 
 #define WINDOW_WIDTH 1000
 #define WINDOW_HEIGHT 620
@@ -21,7 +22,7 @@
  * \brief Initializes window and calls the function to run the game
  * \return int
  **/
-int main() {
+int main(int argc, char** argv) {
     srand(time(NULL));
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -52,7 +53,19 @@ int main() {
     // Set background to black
     SDL_SetRenderDrawColor( ren, 0, 0, 0, 255 );
 
-    runGame(ren, win);
+    // game configuration init
+    config conf;
+    conf.state = menuState;
+    conf.boardSize = 24;
+    conf.allowedTurns = 44;
+
+    if(argc > 1){
+        conf.boardSize = atoi(argv[1]);
+        if(argc > 2) conf.allowedTurns = atoi(argv[2]);
+    }
+
+    conf.turnsLeft = conf.allowedTurns;
+    runGame(ren, win, &conf);
 
     return 0;
 }
