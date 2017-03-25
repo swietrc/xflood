@@ -6,7 +6,7 @@ typedef struct colorList ColorList;
 ColorList* ColorListCreateEmpty();
 void ColorListPush(ColorList* list, char color);
 size_t ColorListSize(ColorList* l);
-void ColorListForward(ColorList* l, char* element);
+bool ColorListForward(ColorList* l, char* element);
 void ColorListClean(ColorList* l);
 void ColorListDestroy(ColorList* l);
 void colorListCopy(ColorList* src, ColorList* dst);

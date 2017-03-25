@@ -13,7 +13,7 @@ struct colorList {
 /**
  * \fn ColorList* ColorListCreate()
  * \brief Initialises an empty color list.
- * \return initialized empty color list
+ * \return Initialized empty color list
  */
 ColorList* ColorListCreateEmpty(){
     // TODO implement that
@@ -45,8 +45,9 @@ size_t ColorListSize(ColorList* list){
  * Also sets the current element to the next element on the list.
  * @param l The list to get the next element of.
  * @param element A pointer that will be value assigned the value of the current element of the list.
+ * @return true as long as the list end has not been reached, false otherwise.
  */
-void ColorListForward(ColorList* l, char* element){
+bool ColorListForward(ColorList* l, char* element){
     // TODO implement that
 }
 
