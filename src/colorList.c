@@ -13,7 +13,7 @@ struct colorList {
 /**
  * \fn ColorList* ColorListCreate()
  * \brief Initialises an empty color list.
- * \return initialized empty color list
+ * \return Initialized empty color list
  */
 ColorList* ColorListCreateEmpty(){
     // TODO implement that
