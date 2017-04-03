@@ -1,0 +1,6 @@
+#ifndef XFLOOD_COLORLISTTESTS_H
+#define XFLOOD_COLORLISTTESTS_H
+
+void addAllColorListTests();
+
+#endif //XFLOOD_COLORLISTTESTS_H
