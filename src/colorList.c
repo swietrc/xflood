@@ -53,7 +53,7 @@ bool ColorListForward(ColorList* l, char* element){
 
 /**
  * \fn void ColorListClean(ColorList* l)
- * \brief Free the list elements form the memory
+ * \brief Frees the elements of the list form the memory
  * @param l The list to remove the elements from.
  */
 void ColorListClean(ColorList* l){
@@ -62,7 +62,7 @@ void ColorListClean(ColorList* l){
 
 /**
  * \fn void ColorListDestroy(ColorList* l)
- * \brief Free the list and its elements form the memory
+ * \brief Frees the list and its elements form the memory
  * @param l The list to remove from memory
  */
 void ColorListDestroy(ColorList* l){
