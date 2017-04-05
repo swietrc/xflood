@@ -7,6 +7,8 @@
 #include "colorList.h"
 #include "board.h"
 
+ColorList* getPossibleColors(Board* b);
+
 int solveBoard(Board* b, ColorList* bestSolution, ColorList* currentSolution);
 
 #endif
