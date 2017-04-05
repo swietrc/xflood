@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 #include "colorList.h"
 
 struct colorNode {
@@ -11,11 +15,12 @@ struct colorList {
 };
 
 /**
- * \fn ColorList* ColorListCreate()
- * \brief Initialises an empty color list.
+ * \fn ColorList* ColorListCreateEmpty()
+ * \brief Initializes an empty color list.
  * \return Initialized empty color list
  */
 ColorList* ColorListCreateEmpty(){
+  return NULL;
     // TODO implement that
 }
 /**
@@ -35,6 +40,7 @@ void ColorListPush(ColorList* list, char color){
  * @return The number of element of the list.
  */
 size_t ColorListSize(ColorList* list){
+  return 0;
     // TODO implement that
 }
 
@@ -48,6 +54,7 @@ size_t ColorListSize(ColorList* list){
  * @return true as long as the list end has not been reached, false otherwise.
  */
 bool ColorListForward(ColorList* l, char* element){
+  return false;
     // TODO implement that
 }
 
@@ -70,11 +77,11 @@ void ColorListDestroy(ColorList* l){
 }
 
 /**
- * \fn colorListCopy(ColorList* src, ColorList* dst)
+ * \fn ColorListCopy(ColorList* src, ColorList* dst)
  * \brief Cleans dst list and copy src list elements into dst.
  * @param src The list to copy from.
  * @param dst The list to copy to.
  */
-void colorListCopy(ColorList* src, ColorList* dst){
+void ColorListCopy(ColorList* src, ColorList* dst){
     // TODO implement taht
 }
