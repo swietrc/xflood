@@ -4,6 +4,7 @@
 #include <CUnit/Basic.h>
 #include <CUnit/Automated.h>
 
+#include "colorListTests.h"
 #include "boardTests.h"
 
 int main() {
@@ -12,6 +13,7 @@ int main() {
 
     // Adding modules tests
     addAllBoardTests();
+    addAllColorListTests();
 
     // output to stdout
     CU_basic_set_mode(CU_BRM_VERBOSE);
