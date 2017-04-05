@@ -1,3 +1,15 @@
+/**
+ * \file colorList.c
+ * Contains all colorList related data structures and operations.
+ * \author Simon Wietrich
+ * \author Pierre Genthon
+ * \author Celestin Caumes
+ * \author Camille Schnell
+ **/
+
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "colorList.h"
 
 struct colorNode {
@@ -16,7 +28,10 @@ struct colorList {
  * \return Initialized empty color list
  */
 ColorList* ColorListCreateEmpty(){
-    // TODO implement that
+	colorList *list = malloc(sizeof(struct ColorList));
+	list->head = NULL;
+	lits->current = NULL;
+	return list;
 }
 /**
  * \fn void ColorListPush(ColorList* list, char color)
@@ -25,7 +40,11 @@ ColorList* ColorListCreateEmpty(){
  * \param color The value of the element to add
  */
 void ColorListPush(ColorList* list, char color){
-    // TODO implement that
+	ColorNode *node = malloc(sizeof(struct ColorNode));
+	node->val = color;
+	node->next = NULL;
+	list->current = node;
+	(list->head)->next = node;
 }
 
 /**
@@ -35,7 +54,14 @@ void ColorListPush(ColorList* list, char color){
  * @return The number of element of the list.
  */
 size_t ColorListSize(ColorList* list){
-    // TODO implement that
+	ColorList *l1 = l;
+	if ((l1->head)->next == NULL) {
+		return 0;
+	}
+	else {
+		l1->head = (l1->head)->next;
+		return 1 + ColorListSize(l1);
+	}
 }
 
 /**
@@ -48,7 +74,15 @@ size_t ColorListSize(ColorList* list){
  * @return true as long as the list end has not been reached, false otherwise.
  */
 bool ColorListForward(ColorList* l, char* element){
-    // TODO implement that
+	if ((l->current)->next == NULL) {
+		element = NULL;
+		return false;
+	}
+	else {
+		element = (l->current)->val;
+		(l->current) = (l->head)->next;
+		return true;
+	}
 }
 
 /**
@@ -57,7 +91,14 @@ bool ColorListForward(ColorList* l, char* element){
  * @param l The list to remove the elements from.
  */
 void ColorListClean(ColorList* l){
-    // TODO implement that
+	if ((l->head)->next == NULL) {
+		free(l->head);
+	}
+	else {
+		free(l->head);
+		(l->head) = (l->head)->next;
+		ColorListClean(l);
+	}
 }
 
 /**
@@ -66,7 +107,8 @@ void ColorListClean(ColorList* l){
  * @param l The list to remove from memory
  */
 void ColorListDestroy(ColorList* l){
-    // TODO implement taht
+	ColorListClean(l);
+	free(l);
 }
 
 /**
@@ -76,5 +118,10 @@ void ColorListDestroy(ColorList* l){
  * @param dst The list to copy to.
  */
 void colorListCopy(ColorList* src, ColorList* dst){
-    // TODO implement taht
+	ColorListClean(dst);
+	while(dst->head != NULL) {
+		dst->head = src->head;
+		src->head = (src->head)->next;
+		dst->head = (dst->head)->next;
+	}
 }
