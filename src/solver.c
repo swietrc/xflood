@@ -1,4 +1,15 @@
 #include "solver.h"
+#include "board.h"
+
+
+ColorList* getPossibleColors(Board* b) {
+    ColorList* l = ColorListCreate();
+    
+    
+}
+
+
+
 
 int solveBoard(Board* b, ColorList* bestSolution, ColorList* currentSolution) {
     if(currentSolution == NULL)                    // First time we call the solver
