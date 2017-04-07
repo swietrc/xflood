@@ -3,10 +3,34 @@
 
 
 ColorList* getPossibleColors(Board* b) {
-    ColorList* l = ColorListCreate();
-    
-    
+	ColorList l = ColorListCreateEmpty();
+	char c = getBoardCell(b, 0, 0);
+	int cpt = 0;
+	void getPossibleColorsRec(Board* b, ColorList* l, char Color, unsigned int x, unsigned int y, int cpt) {
+		if ((oldColor == newColor) || (getBoardCell(b, x, y) != oldColor))
+        		return;
+		if (cpt == 6)
+			return;
+		if (getBoardCell(b, x, y) != c) {
+			ColorListPush(l, c);
+			cpt++;
+		}
+		// Check left
+		if (x > 0)
+			getPossibleColorsRec(b, l, c, x - 1, y, cpt);
+		// Check right
+		if (x < (b->size - 1))
+			getPossibleColorsRec(b, l, c, x + 1, y, cpt);
+		// Check up
+		if (y > 0)
+			getPossibleColorsRec(b, l, c, x, y - 1, cpt);
+		// Check down
+		if (y < (b->size - 1))
+			getPossibleColorsRec(b, l, c, x, y + 1, cpt);
+	}
+	getPossibleColorsRec(b, l, c, 0, 0, cpt);
 }
+
 
 
 
