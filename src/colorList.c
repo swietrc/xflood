@@ -14,12 +14,12 @@
 
 struct colorNode {
     char val;
-    colorNode* next;
+    ColorNode* next;
 };
 
 struct colorList {
-    colorNode* head;
-    colorNode* current;
+    ColorNode* head;
+    ColorNode* current;
 };
 
 /**
@@ -28,9 +28,9 @@ struct colorList {
  * \return Initialized empty color list
  */
 ColorList* ColorListCreateEmpty(){
-	colorList *list = malloc(sizeof(struct ColorList));
+	ColorList *list = malloc(sizeof(ColorList));
 	list->head = NULL;
-	lits->current = NULL;
+	list->current = NULL;
 	return list;
 }
 /**
@@ -40,7 +40,7 @@ ColorList* ColorListCreateEmpty(){
  * \param color The value of the element to add
  */
 void ColorListPush(ColorList* list, char color){
-	ColorNode *node = malloc(sizeof(struct ColorNode));
+	ColorNode *node = malloc(sizeof(ColorNode));
 	node->val = color;
 	node->next = NULL;
 	list->current = node;
@@ -54,7 +54,7 @@ void ColorListPush(ColorList* list, char color){
  * @return The number of element of the list.
  */
 size_t ColorListSize(ColorList* list){
-	ColorList *l1 = l;
+	ColorList *l1 = list;
 	if ((l1->head)->next == NULL) {
 		return 0;
 	}
@@ -117,7 +117,7 @@ void ColorListDestroy(ColorList* l){
  * @param src The list to copy from.
  * @param dst The list to copy to.
  */
-void colorListCopy(ColorList* src, ColorList* dst){
+void ColorListCopy(ColorList* src, ColorList* dst){
 	ColorListClean(dst);
 	while(dst->head != NULL) {
 		dst->head = src->head;

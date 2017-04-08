@@ -4,7 +4,7 @@
 
 #include <stdbool.h>
 
-typedef struct colorNode colorNode;
+typedef struct colorNode ColorNode;
 typedef struct colorList ColorList;
 
 ColorList* ColorListCreateEmpty();
