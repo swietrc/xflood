@@ -14,12 +14,12 @@
 
 struct colorNode {
     char val;
-    colorNode* next;
+    ColorNode* next;
 };
 
 struct colorList {
-    colorNode* head;
-    colorNode* current;
+    ColorNode* head;
+    ColorNode* current;
 };
 
 /**
@@ -28,9 +28,10 @@ struct colorList {
  * \return Initialized empty color list
  */
 ColorList* ColorListCreateEmpty(){
-	colorList *list = malloc(sizeof(struct ColorList));
+	ColorList *list = malloc(sizeof(ColorList));
 	list->head = NULL;
-	lits->current = NULL;
+	list->current = NULL;
+
 	return list;
 }
 /**
@@ -40,11 +41,23 @@ ColorList* ColorListCreateEmpty(){
  * \param color The value of the element to add
  */
 void ColorListPush(ColorList* list, char color){
-	ColorNode *node = malloc(sizeof(struct ColorNode));
+	ColorNode *node = malloc(sizeof(ColorNode));
 	node->val = color;
 	node->next = NULL;
-	list->current = node;
-	(list->head)->next = node;
+
+    if (list->head == NULL) {
+        list->head = node;
+        list->current = node;
+        return;
+    }
+
+    ColorNode* current = list->head;
+
+    while (current->next != NULL) {
+        current = current->next;
+    }
+
+    current->next = node;
 }
 
 /**
@@ -54,14 +67,17 @@ void ColorListPush(ColorList* list, char color){
  * @return The number of element of the list.
  */
 size_t ColorListSize(ColorList* list){
-	ColorList *l1 = l;
-	if ((l1->head)->next == NULL) {
-		return 0;
-	}
-	else {
-		l1->head = (l1->head)->next;
-		return 1 + ColorListSize(l1);
-	}
+    ColorNode* current = list->head;
+    if (current == NULL)
+        return 0;
+
+    size_t s = 1;
+
+    while (current->next != NULL) {
+        s++;
+        current = current->next;
+    }
+    return s;
 }
 
 /**
@@ -74,31 +90,36 @@ size_t ColorListSize(ColorList* list){
  * @return true as long as the list end has not been reached, false otherwise.
  */
 bool ColorListForward(ColorList* l, char* element){
-	if ((l->current)->next == NULL) {
+	if (l->current == NULL) {
 		element = NULL;
 		return false;
 	}
 	else {
-		element = (l->current)->val;
-		(l->current) = (l->head)->next;
+		*element = (l->current)->val;
+		(l->current) = (l->current)->next;
 		return true;
 	}
+}
+
+void ColorNodesClean(ColorNode* n) {
+    if (n->next == NULL)
+        return;
+    
+    ColorNodesClean(n->next);
+    free(n->next);
 }
 
 /**
  * \fn void ColorListClean(ColorList* l)
  * \brief Free the list elements form the memory
  * @param l The list to remove the elements from.
+ * 
  */
 void ColorListClean(ColorList* l){
-	if ((l->head)->next == NULL) {
-		free(l->head);
-	}
-	else {
-		free(l->head);
-		(l->head) = (l->head)->next;
-		ColorListClean(l);
-	}
+    if (l->head == NULL)
+        return;
+
+    ColorNodesClean(l->head);
 }
 
 /**
@@ -117,11 +138,18 @@ void ColorListDestroy(ColorList* l){
  * @param src The list to copy from.
  * @param dst The list to copy to.
  */
-void colorListCopy(ColorList* src, ColorList* dst){
-	ColorListClean(dst);
-	while(dst->head != NULL) {
-		dst->head = src->head;
-		src->head = (src->head)->next;
-		dst->head = (dst->head)->next;
-	}
+void ColorListCopy(ColorList* src, ColorList* dst){
+    ColorNode* current = src->head;
+
+    while(current != NULL) {
+        ColorListPush(dst, current->val);
+        current = current->next;
+    }
+
+    current = dst->head;
+
+    while(current != NULL) {
+        current = current->next;
+    }
 }
+

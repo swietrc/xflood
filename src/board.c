@@ -233,3 +233,9 @@ bool isBoardOneColored(Board* b){
     }
     return true;
 }
+
+Board* copyBoard(Board *b) {
+  Board* dest = initBoard(b->size);
+  dest->grid = b->grid;
+  return dest;
+}
