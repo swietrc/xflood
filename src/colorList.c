@@ -153,3 +153,14 @@ void ColorListCopy(ColorList* src, ColorList* dst){
     }
 }
 
+void ColorListPrint(ColorList* l) {
+    ColorNode* current = l->head;
+    puts("\n [ ");
+
+    while(current != NULL) {
+        printf("%c, ", current->val);
+        current = current->next;
+    }
+    puts("] \n");
+}
+

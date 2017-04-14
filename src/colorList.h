@@ -14,5 +14,6 @@ bool ColorListForward(ColorList* l, char* element);
 void ColorListClean(ColorList* l);
 void ColorListDestroy(ColorList* l);
 void ColorListCopy(ColorList* src, ColorList* dst);
+void ColorListPrint(ColorList*);
 
 #endif //XFLOOD_COLORLIST_H
