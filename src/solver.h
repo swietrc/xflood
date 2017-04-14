@@ -9,6 +9,6 @@
 
 ColorList* getPossibleColors(Board* b);
 
-int solveBoard(Board* b, ColorList** bestSolution, ColorList* currentSolution);
+int solveBoard(Board* b, ColorList** bestSolution, ColorList** currentSolution);
 
 #endif
