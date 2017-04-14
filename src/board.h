@@ -22,5 +22,6 @@ void freeBoard(Board* b);
 void debug_displayBoard(Board* b);
 bool areSimilarBoards(Board* b1, Board* b2);
 bool isBoardOneColored(Board* b);
+size_t getBoardSize(Board*);
 
 #endif

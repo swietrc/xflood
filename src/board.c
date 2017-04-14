@@ -239,3 +239,12 @@ Board* copyBoard(Board *b) {
   dest->grid = b->grid;
   return dest;
 }
+
+/**
+ * \fn size_t getBoardSize(Board* b)
+ * \param b The board to get the size from
+ * \return the size of the board
+ */
+size_t getBoardSize(Board *b) {
+    return b->size;
+}
