@@ -69,7 +69,9 @@ int solveBoard(Board* b, ColorList** bestSolution, ColorList** currentSolution) 
         ColorListClean(*currentSolution);
     }
     return ColorListSize(*bestSolution);
-    /*
+}
+
+int solveBoardThatEnds(Board* b, ColorList** bestSolution) {
     debug_displayBoard(b);
     ColorList* nextColors;
     ColorList* solution = ColorListCreateEmpty();
@@ -85,7 +87,6 @@ int solveBoard(Board* b, ColorList** bestSolution, ColorList** currentSolution) 
     }
     ColorListPrint(solution);
     *bestSolution = solution;
-    return 0;
-    */
+    return ColorListSize(solution);
 }
 
