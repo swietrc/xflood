@@ -13,6 +13,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <string.h>
 
 #include "board.h"
 
@@ -236,7 +237,7 @@ bool isBoardOneColored(Board* b){
 
 Board* copyBoard(Board *b) {
   Board* dest = initBoard(b->size);
-  dest->grid = b->grid;
+  memcpy(dest->grid, b->grid, sizeof(char) * b->size * b->size);
   return dest;
 }
 
