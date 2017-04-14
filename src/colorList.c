@@ -41,6 +41,9 @@ ColorList* ColorListCreateEmpty(){
  * \param color The value of the element to add
  */
 void ColorListPush(ColorList* list, char color){
+    if(list == NULL)
+        return;
+
 	ColorNode *node = malloc(sizeof(ColorNode));
 	node->val = color;
 	node->next = NULL;
@@ -67,6 +70,8 @@ void ColorListPush(ColorList* list, char color){
  * @return The number of element of the list.
  */
 size_t ColorListSize(ColorList* list){
+    if (list == NULL)
+        return 0;
     ColorNode* current = list->head;
     if (current == NULL)
         return 0;
@@ -77,6 +82,7 @@ size_t ColorListSize(ColorList* list){
         s++;
         current = current->next;
     }
+    printf("\nSIZE: %d\n", s);
     return s;
 }
 
@@ -101,14 +107,6 @@ bool ColorListForward(ColorList* l, char* element){
 	}
 }
 
-void ColorNodesClean(ColorNode* n) {
-    if (n->next == NULL)
-        return;
-    
-    ColorNodesClean(n->next);
-    free(n->next);
-}
-
 /**
  * \fn void ColorListClean(ColorList* l)
  * \brief Free the list elements form the memory
@@ -116,10 +114,19 @@ void ColorNodesClean(ColorNode* n) {
  * 
  */
 void ColorListClean(ColorList* l){
-    if (l->head == NULL)
+    if (l == NULL)
         return;
 
-    ColorNodesClean(l->head);
+    if (l->head == NULL)
+        return;
+    
+    ColorList* tmp = 0;
+
+    while (l->head != NULL) {
+        tmp = l->head;
+        l->head = l->head->next;
+        free(tmp);
+    }
 }
 
 /**
@@ -139,6 +146,9 @@ void ColorListDestroy(ColorList* l){
  * @param dst The list to copy to.
  */
 void ColorListCopy(ColorList* src, ColorList* dst){
+    if(src == NULL || dst == NULL)
+        return;
+
     ColorNode* current = src->head;
 
     while(current != NULL) {
@@ -154,11 +164,13 @@ void ColorListCopy(ColorList* src, ColorList* dst){
 }
 
 void ColorListPrint(ColorList* l) {
+    if(l == NULL)
+        return;
     ColorNode* current = l->head;
-    puts("\n [ ");
+    puts("\n [");
 
     while(current != NULL) {
-        printf("%c, ", current->val);
+        printf(" %c ", current->val);
         current = current->next;
     }
     puts("] \n");
