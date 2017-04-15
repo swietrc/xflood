@@ -30,7 +30,10 @@ boardTests.o: test/boardTests.c test/boardTests.h board.o
 colorListTests.o: test/colorListTests.c test/colorListTests.h colorList.o
 	$(CC) -c test/colorListTests.c $(FLAGS)
 
-allTests.o: test/allTests.c boardTests.o colorListTests.o
+solverTests.o: test/solverTests.c test/solverTests.h solver.o
+	$(CC) -c test/solverTests.c $(FLAGS)
+
+allTests.o: test/allTests.c boardTests.o colorListTests.o solverTests.o
 	$(CC) -c test/allTests.c $(FLAGS)
 
 ############## REGULAR TARGETS ################
@@ -38,8 +41,11 @@ allTests.o: test/allTests.c boardTests.o colorListTests.o
 all: src/main.c board.o gameScreen.o game.o menuScreen.o utils.o
 	$(CC) src/main.c board.o gameScreen.o game.o menuScreen.o utils.o -o Xflood $(FLAGS) -lSDL2 -lSDL2_ttf -lSDL2_image
 
-allTests: allTests.o boardTests.o board.o colorListTests.o colorList.o
-	$(CC) allTests.o boardTests.o board.o colorListTests.o colorList.o -o test/allTests $(FLAGS) -lcunit
+solver: src/solver.c board.o colorList.o
+	$(CC) src/solver.c board.o colorList.o -o solver $(FLAGS)
+
+allTests: allTests.o boardTests.o board.o colorListTests.o colorList.o solverTests.o solver.o
+	$(CC) allTests.o boardTests.o board.o colorListTests.o colorList.o solverTests.o solver.o -o test/allTests $(FLAGS) -lcunit
 
 ################### TASKS #####################
 
