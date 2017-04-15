@@ -79,6 +79,7 @@ int solveBoard(Board* b, ColorList** bestSolution, ColorList** currentSolution) 
     }
     
     if (*bestSolution != NULL && ColorListSize(*currentSolution) >= ColorListSize(*bestSolution)) {
+        ColorListClean(*currentSolution);
         return -1;
     } else if(!isBoardOneColored(b)) {
         char currentColor;
