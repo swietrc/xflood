@@ -160,6 +160,16 @@ void test_Board_isBoardOneColored() {
     freeBoard(b2);
 }
 
+void test_Board_copyBoard() {
+	const size_t BSIZE = 3;
+	Board* b1 = initRandomBoard(BSIZE);
+	Board* b2 = copyBoard(b1);
+	CU_ASSERT_TRUE(areSimilarBoards(b1, b2));
+
+	freeBoard(b1);
+	freeBoard(b2);
+}
+
 void addAllBoardTests(){
     CU_pSuite pSuite = CU_add_suite("Board elementary data structure and operations on them", NULL, NULL);
 
@@ -170,4 +180,5 @@ void addAllBoardTests(){
     CU_add_test(pSuite, "setBoardCell() should set the correct value on grid at given X Y coords", test_Board_setBoardCell);
     CU_add_test(pSuite, "isBoardOneColored() should return true if the board is one-colored and false otherwise", test_Board_isBoardOneColored);
     CU_add_test(pSuite, "floodBoard() should flood the board correctly with a given scenario", test_Board_floodBoard);
+    CU_add_test(pSuite, "copyBoard() should produce a similar board", test_Board_copyBoard);
 }
