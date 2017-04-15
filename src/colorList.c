@@ -82,7 +82,6 @@ size_t ColorListSize(ColorList* list){
         s++;
         current = current->next;
     }
-    printf("\nSIZE: %d\n", s);
     return s;
 }
 
