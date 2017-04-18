@@ -16,36 +16,7 @@
 #include "utils.h"
 #include "menuScreen.h"
 
-/**
- * \fn void drawButton(char* txt, int x, int y, int w, int h, SDL_Color txtColor, SDL_Color backgroundColor, SDL_Renderer* ren)
- * \brief Draws a button on screen
- * \param txt Text to display on the button
- * \param x X position of the button
- * \param y Y position of the button
- * \param w Width of the button
- * \param h Height of the button
- * \param txtColor Color of the text of the button
- * \param backgroundColor Color of the button
- * \param ren Renderer on which to draw the button
- */
-static void drawButton(char* txt, int x, int y, int w, int h, SDL_Color txtColor, SDL_Color backgroundColor, SDL_Renderer* ren) {
-    SDL_Surface* surfaceText = TTF_RenderText_Blended(defaultFont, txt, txtColor);
-    SDL_Texture* text = SDL_CreateTextureFromSurface(ren, surfaceText);
-
-    SDL_Rect text_rect;
-    text_rect.x = x;  //controls the rect's x coordinate
-    text_rect.y = y; // controls the rect's y coordinte
-    text_rect.w = w; // controls the width of the rect
-    text_rect.h = h; // controls the height of the rect
-
-    SDL_SetRenderDrawColor( ren, backgroundColor.r, backgroundColor.g,  backgroundColor.b, backgroundColor.a ); // Color background of button
-    SDL_RenderFillRect( ren, &text_rect );
-    SDL_RenderCopy(ren, text, NULL, &text_rect);
-
-    // Free surface and texture
-    SDL_FreeSurface(surfaceText);
-    SDL_DestroyTexture(text);
-}
+static int needsRefresh = 1;
 
 /**
  * \fn void handleMenuClicks(int x, int y, config* conf)
@@ -91,6 +62,7 @@ static void handleMenuClicks(int x, int y, config* conf) {
  * \param ren SDL_Renderer object used to display the menu
  * \param conf config* a pointer to the application's configuration data structure
  */
+
 static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
     // Set background to black
     SDL_SetRenderDrawColor( ren, 0, 0, 0, 255 );
@@ -114,6 +86,7 @@ static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
     SDL_RenderCopy(ren, Message, NULL, &Message_rect);
 
     /** Creation of 3 buttons for the board size **/
+
     SDL_Color backColorCurrent = {0, 150, 0, 255};
     SDL_Color backColor = {50, 50, 50, 255};
     // First button
@@ -158,10 +131,13 @@ static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
  * \param conf config* a pointer to the application's configuration data structure
  */
 static void menuScreenCheckEvents(SDL_Event event, config* conf) {
+    needsRefresh = 1;
     switch(event.type) {
         case SDL_MOUSEBUTTONDOWN:
             handleMenuClicks(event.button.x, event.button.y, conf);
             break;
+        default: // its useless to redraw the screen if no event was handled, the ui state wasn't changed
+            needsRefresh = 0;
     }
 }
 
@@ -173,6 +149,12 @@ static void menuScreenCheckEvents(SDL_Event event, config* conf) {
  * \param conf config* a pointer to the application's configuration data structure
  */
 extern void menuScreen(SDL_Event event, SDL_Renderer* ren, config* conf) {
+    if(needsRefresh){
+        SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
+        SDL_RenderClear(ren);
+        displayMenuScreen(ren, conf);
+        SDL_RenderPresent(ren); // Render the board to the screen
+    }
+
     menuScreenCheckEvents(event, conf);
-    displayMenuScreen(ren, conf);
 }

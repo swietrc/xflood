@@ -29,8 +29,10 @@ $ make
 This will generate the program which can be executed like so :
 
 ```bash
-$ ./XFlood
+$ ./XFlood [grid size] [allowed turns]
 ```
+
+The two parameters are optionnal. By default the grid size will be 24 and you'll have 44 turns to finish the game.
 
 ##How to generate documentation with doxygen
 

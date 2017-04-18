@@ -13,6 +13,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <string.h>
 
 #include "board.h"
 
@@ -232,4 +233,34 @@ bool isBoardOneColored(Board* b){
         }
     }
     return true;
+}
+
+/**
+ * \fn Board* copyBoard(Board *b)
+ * \brief Creates the exact copy of the board passed in parameters
+ * @param b The board to copy
+ * @return The copy of the board passed in parameters
+ */
+Board* copyBoard(Board *b) {
+    /*
+  Board* dest = initBoard(b->size);
+  memcpy(dest->grid, b->grid, sizeof(char) * b->size * b->size);
+  return dest;
+  */
+    Board* dest = initBoard(b->size);
+    for(unsigned int x=0; x<b->size; x++){
+        for(unsigned int y=0; y<b->size; y++){
+            setBoardCell(dest, x, y, getBoardCell(b, x, y));
+        }
+    }
+    return dest;
+}
+
+/**
+ * \fn size_t getBoardSize(Board* b)
+ * \param b The board to get the size from
+ * \return the size of the board
+ */
+size_t getBoardSize(Board *b) {
+    return b->size;
 }

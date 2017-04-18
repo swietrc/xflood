@@ -4,7 +4,9 @@
 #include <CUnit/Basic.h>
 #include <CUnit/Automated.h>
 
+#include "colorListTests.h"
 #include "boardTests.h"
+#include "solverTests.h"
 
 int main() {
     srand(time(NULL));
@@ -12,6 +14,8 @@ int main() {
 
     // Adding modules tests
     addAllBoardTests();
+    addAllColorListTests();
+    addAllSolverTests();
 
     // output to stdout
     CU_basic_set_mode(CU_BRM_VERBOSE);

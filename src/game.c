@@ -39,15 +39,10 @@ void checkEvents(SDL_Event event, SDL_Renderer* ren, SDL_Window* win) {
  * \brief Game loop function
  * \param ren Current game renderer
  * \param win Current game window
+ * \param conf The application configuration data structure
  */
-void runGame(SDL_Renderer* ren, SDL_Window* win) {
+void runGame(SDL_Renderer* ren, SDL_Window* win, config* conf) {
   SDL_Event event;
-
-  config conf;
-  conf.state = menuState;
-  conf.boardSize = 24;
-  conf.allowedTurns = 44;
-  conf.turnsLeft = conf.allowedTurns;
 
   while(1) {
     // Wait for event
@@ -59,17 +54,14 @@ void runGame(SDL_Renderer* ren, SDL_Window* win) {
     // Clear the screen
     SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
     SDL_RenderClear(ren);
-    
-    // Draw things
-    switch(conf.state) {
+
+    switch(conf->state) {
       case menuState:
-        menuScreen(event, ren, &conf);
+        menuScreen(event, ren, conf);
         break;
       case gameState:
-        gameScreen(event, ren, &conf);
+        gameScreen(event, ren, conf);
         break;
     }
-    // Render things
-    SDL_RenderPresent(ren); // Render the board to the screen
   }
 }

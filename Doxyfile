@@ -1,6 +1,6 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "XFlood"
-PROJECT_NUMBER         = "Lot B"
+PROJECT_NUMBER         = "Lot C"
 PROJECT_BRIEF          = 
 PROJECT_LOGO           = ./logo.png
 OUTPUT_DIRECTORY       = docs
