@@ -87,16 +87,14 @@ size_t ColorListSize(ColorList* list){
 
 /**
  * \fn void ColorListForward(ColorList* l, char* element)
- * \brief Assigns the value of current element,
- * or NULL if the end of the list has been reached through the param element.
+ * \brief Assigns the value of current element, (if the end of the list has not been reached) through the param element.
  * Also sets the current element to the next element on the list.
  * @param l The list to get the next element of.
  * @param element A pointer that will be value assigned the value of the current element of the list.
  * @return true as long as the list end has not been reached, false otherwise.
  */
 bool ColorListForward(ColorList* l, char* element){
-	if (l->current == NULL) {
-		element = NULL;
+  if (l->current == NULL) {
 		return false;
 	}
 	else {
@@ -119,7 +117,7 @@ void ColorListClean(ColorList* l){
     if (l->head == NULL)
         return;
     
-    ColorList* tmp = 0;
+    ColorNode* tmp = NULL;
 
     while (l->head != NULL) {
         tmp = l->head;
@@ -134,7 +132,7 @@ void ColorListClean(ColorList* l){
  * @param l The list to remove from memory
  */
 void ColorListDestroy(ColorList* l){
-	ColorListClean(l);
+  ColorListClean(l);
 	free(l);
 }
 
@@ -148,30 +146,42 @@ void ColorListCopy(ColorList* src, ColorList* dst){
     if(src == NULL || dst == NULL)
         return;
 
+    ColorListClean(dst);
     ColorNode* current = src->head;
-
     while(current != NULL) {
         ColorListPush(dst, current->val);
         current = current->next;
     }
-
-    current = dst->head;
-
-    while(current != NULL) {
-        current = current->next;
-    }
 }
 
+/**
+ * \fn void ColorListPrint(ColorList* l)
+ * \brief Prints the elements of the list between square brackets on the standard output
+ * @param l The list to print
+ */
 void ColorListPrint(ColorList* l) {
-    if(l == NULL)
-        return;
     ColorNode* current = l->head;
-    puts("\n [");
+    printf("\n [");
 
     while(current != NULL) {
         printf(" %c ", current->val);
         current = current->next;
     }
-    puts("] \n");
+    printf("] \n");
+}
+
+/**
+ * \fn bool ColorListIsIn(ColorList* l, char* element)
+ * \brief Returns true if the color passed in parameters is contained in the list
+ * @param l The list to check
+ * @param color The color which presence will be checked
+ */
+bool ColorListIsIn(ColorList* l, char color){
+  ColorNode* current = l->head;
+  while(current != NULL){
+    if(current->val == color) return true;
+    current = current->next;
+  }
+  return false;
 }
 

@@ -22,7 +22,7 @@ menuScreen.o: src/menuScreen.c src/menuScreen.h
 	$(CC) -c src/menuScreen.c $(FLAGS)
 
 solver.o: src/solver.c src/solver.h src/colorList.h board.o
-	$(CC) -c src/solver.c board.o $(FLAGS)
+	$(CC) -c src/solver.c $(FLAGS)
 
 boardTests.o: test/boardTests.c test/boardTests.h board.o
 	$(CC) -c test/boardTests.c $(FLAGS)

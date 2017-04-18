@@ -15,17 +15,9 @@ void test_Solver_getPossibleColors() {
           'R', 'R', 'R', 'R',
   });
   ColorList* possColors = getPossibleColors(b);
-  char current;
-  int i;
-  while(ColorListForward(possColors, &current)) {
-    if(i == 0)
-      CU_ASSERT(current == 'Y')
-    else if (i == 1)
-      CU_ASSERT(current == 'B')
-    else if (i == 2)
-      CU_ASSERT(current == 'G')
-    i++;
-  }
+  CU_ASSERT(ColorListIsIn(possColors, 'Y'));
+  CU_ASSERT(ColorListIsIn(possColors, 'B'));
+  CU_ASSERT(ColorListIsIn(possColors, 'G'));
   freeBoard(b);
   ColorListDestroy(possColors);
 }
@@ -37,30 +29,33 @@ void test_Solver_solveBoard() {
           'B', 'O', 'B',
           'M', 'Y', 'O',
   });
-  ColorList* bestSol = 0;
-  ColorList* crtSol = 0;
+  ColorList* bestSol = ColorListCreateEmpty();
+  ColorList* crtSol = ColorListCreateEmpty();
 
-  int finalSize = solveBoard(b, &bestSol, &crtSol);
+  int finalSize = solveBoard(b, bestSol, crtSol);
   CU_ASSERT(finalSize == 4);
 
   char current;
-  int i;
+  int i = 0;
+
   while(ColorListForward(bestSol, &current)) {
-    if(i == 0)
-      CU_ASSERT(current == 'B')
-    else if (i == 1)
-      CU_ASSERT(current == 'O')
-    else if (i == 2)
-      CU_ASSERT(current == 'M')
-    else if (i == 3)
-      CU_ASSERT(current == 'Y')
+    switch (i){
+      case 0 : CU_ASSERT(current == 'B'); break;
+      case 1 : CU_ASSERT(current == 'O'); break;
+      case 2 : CU_ASSERT(current == 'M' || current ==  'Y'); break;
+      case 3 : CU_ASSERT(current == 'Y' || current == 'M'); break;
+    }
     i++;
   }
+
+  ColorListDestroy(crtSol);
+  ColorListDestroy(bestSol);
+  freeBoard(b);
 }
 
 void addAllSolverTests(){
     CU_pSuite pSuite = CU_add_suite("Solver algorithm for a Board structure", NULL, NULL);
 
     CU_add_test(pSuite, "getPossibleColors() should correctly return adjacent colors", test_Solver_getPossibleColors);
-    CU_add_test(pSuite, "solveBoard() should return the size of best solution liste to solve the board", test_Solver_solveBoard);
+    CU_add_test(pSuite, "solveBoard() should output an optimal solution to solve the board and return the size of the latter", test_Solver_solveBoard);
 }

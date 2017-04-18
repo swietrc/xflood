@@ -16,10 +16,13 @@ void test_ColorList_ColorListCreateEmpty() {
 void test_ColorList_ColorListPush() {
   ColorList* cl = ColorListCreateEmpty();
   ColorListPush(cl, 'R');
+  ColorListPush(cl, 'B');
   char color;
   ColorListForward(cl, &color);
-
   CU_ASSERT(color == 'R');
+  ColorListForward(cl, &color);
+  CU_ASSERT(color == 'B');
+  ColorListDestroy(cl);
 }
 
 void test_ColorList_ColorListSize() {
@@ -77,13 +80,24 @@ void test_ColorList_ColorListCopy() {
   ColorListDestroy(dst);
 }
 
+void test_ColorList_ColorListIsIn(){
+  ColorList* l = ColorListCreateEmpty();
+  ColorListPush(l, 'B');
+  ColorListPush(l, 'Y');
+  CU_ASSERT(ColorListIsIn(l, 'B'));
+  CU_ASSERT(ColorListIsIn(l, 'Y'));
+  CU_ASSERT_FALSE(ColorListIsIn(l, 'R'));
+  ColorListDestroy(l);
+}
 
 void addAllColorListTests(){
-    CU_pSuite pSuite = CU_add_suite("ColorList elementary data structure and operations on them", NULL, NULL);
 
-    CU_add_test(pSuite, "ColorListCreateEmpty() should return a non null pointer", test_ColorList_ColorListCreateEmpty);
-    CU_add_test(pSuite, "ColorListPush() should correctly add a new element at the end of the list", test_ColorList_ColorListPush);
-    CU_add_test(pSuite, "ColorListSize() should return the number of elements in the list", test_ColorList_ColorListSize);
-    CU_add_test(pSuite, "ColorListForward() should give the current element of the list", test_ColorList_ColorListForward);
-    CU_add_test(pSuite, "ColorListCopy() should correctly copy the source list into the destination list", test_ColorList_ColorListCopy);
+  CU_pSuite pSuite = CU_add_suite("ColorList elementary data structure and operations on them", NULL, NULL);
+
+  CU_add_test(pSuite, "ColorListCreateEmpty() should return a non null pointer", test_ColorList_ColorListCreateEmpty);
+  CU_add_test(pSuite, "ColorListPush() should correctly add a new element at the end of the list", test_ColorList_ColorListPush);
+  CU_add_test(pSuite, "ColorListSize() should return the number of elements in the list", test_ColorList_ColorListSize);
+  CU_add_test(pSuite, "ColorListForward() should give the current element of the list", test_ColorList_ColorListForward);
+  CU_add_test(pSuite, "ColorListCopy() should correctly copy the source list into the destination list", test_ColorList_ColorListCopy);
+  CU_add_test(pSuite, "ColorListIsIn() should return true when an an element is present and false otherwise", test_ColorList_ColorListIsIn);
 }
