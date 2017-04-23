@@ -27,17 +27,17 @@ static int needsRefresh = 1;
  */
 static void handleMenuClicks(int x, int y, config* conf) {
     if(y >= 300 && y <= 400) { // size buttons
-        if(x >= 270 && x <= 370) {
+        if(x >= 300 && x <= 425) {
             conf->boardSize = 12;
         }
-        else if(x >= 410  && x <= 510) {
+        else if(x >= 437  && x <= 562) {
             conf->boardSize = 18;
         }
-        else if(x >= 550 && x <= 650) {
+        else if(x >= 574 && x <= 699) {
             conf->boardSize = 24;
         }
     }
-    else if(y >= 400 && y <= 550 && x >= 280 && x <= 680){ // Play button
+    else if(y >= 400 && y <= 500 && x >= 300 && x <= 700){ // Play button
         conf->state = gameState;
         // allowed turns is a function of board size
         switch (conf->boardSize) {
@@ -62,7 +62,6 @@ static void handleMenuClicks(int x, int y, config* conf) {
  * \param ren SDL_Renderer object used to display the menu
  * \param conf config* a pointer to the application's configuration data structure
  */
-
 static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
     // Set background to black
     SDL_SetRenderDrawColor( ren, 0, 0, 0, 255 );
@@ -78,42 +77,47 @@ static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
     SDL_Texture* Message = SDL_CreateTextureFromSurface(ren, surfaceMessage); // convert surface into a texture
 
     SDL_Rect Message_rect; //create a rect
-    Message_rect.x = 220;  //controls the rect's x coordinate
+    Message_rect.x = (WINDOW_WIDTH / 2) - (surfaceMessage->w / 2);  //controls the rect's x coordinate
     Message_rect.y = 220; // controls the rect's y coordinte
-    Message_rect.w = 500; // controls the width of the rect
-    Message_rect.h = 80; // controls the height of the rect
+    Message_rect.w = surfaceMessage->w; // controls the width of the rect
+    Message_rect.h = surfaceMessage->h; // controls the height of the rect
 
     SDL_RenderCopy(ren, Message, NULL, &Message_rect);
 
     /** Creation of 3 buttons for the board size **/
+    const int w_total = 400;
+    const int x_buttons = (WINDOW_WIDTH/2) - (w_total/2);
+    const int y_buttons = 330;
+    const int w_buttons = 125;
+    const int margin_buttons = 12;
 
     SDL_Color backColorCurrent = {0, 150, 0, 255};
     SDL_Color backColor = {50, 50, 50, 255};
     // First button
     SDL_Color messageColorB1 = {0, 0, 255, 255};
-    drawButton("12 x 12", 270, 300, 100, 50, messageColorB1, conf->boardSize == 12 ? backColorCurrent: backColor, ren);
+    drawButton("12 x 12", x_buttons, y_buttons, w_buttons, 50, messageColorB1, conf->boardSize == 12 ? backColorCurrent: backColor, ren);
 
     // Second button
     SDL_Color messageColorB2 = {255, 255, 255, 255};
-    drawButton("18 x 18", 410, 300, 100, 50, messageColorB2, conf->boardSize == 18 ? backColorCurrent: backColor, ren);
+    drawButton("18 x 18", x_buttons + w_buttons + margin_buttons, y_buttons, w_buttons, 50, messageColorB2, conf->boardSize == 18 ? backColorCurrent: backColor, ren);
 
     // Third button
     SDL_Color messageColorB3 = {255, 0, 0, 255};
-    drawButton("24 x 24", 550, 300, 100, 50, messageColorB3, conf->boardSize == 24 ? backColorCurrent: backColor, ren);
+    drawButton("24 x 24", x_buttons + (2*(w_buttons+margin_buttons)), y_buttons, w_buttons, 50, messageColorB3, conf->boardSize == 24 ? backColorCurrent: backColor, ren);
 
     // Play game button
     SDL_Color messageColorB4 = {0, 255, 0, 255};
-    drawButton("Let's go !", 280, 400, 400, 150, messageColorB4, backColor, ren);
+    drawButton("Let's go !", x_buttons, 400, w_total, 100, messageColorB4, backColor, ren);
 
     /** Adding Logo image **/
     SDL_Surface* surfaceImage = IMG_Load("resources/img/logo.png");
     SDL_Texture* textureImage = SDL_CreateTextureFromSurface(ren, surfaceImage);
 
     SDL_Rect imageRect; //create a rect
-    imageRect.x = 370;  //controls the rect's x coordinate
-    imageRect.y = 10; // controls the rect's y coordinte
-    imageRect.w = 200; // controls the width of the rect
-    imageRect.h = 200; // controls the height of the rect
+    imageRect.x = (WINDOW_WIDTH/2) - (surfaceImage->w/2);  //controls the rect's x coordinate
+    imageRect.y = 5; // controls the rect's y coordinte
+    imageRect.w = surfaceImage->w; // controls the width of the rect
+    imageRect.h = surfaceImage->h; // controls the height of the rect
 
     SDL_RenderCopy(ren, textureImage, NULL, &imageRect);
 
@@ -122,6 +126,11 @@ static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
     SDL_DestroyTexture(Message);
     SDL_FreeSurface(surfaceImage);
     SDL_DestroyTexture(textureImage);
+    
+    SDL_SetRenderDrawColor(ren, 0xFF, 0, 0, 0xFF);
+    
+    // DEBUG Center Line
+    // SDL_RenderDrawLine(ren, WINDOW_WIDTH / 2, 0, WINDOW_WIDTH / 2, WINDOW_HEIGHT);
 }
 
 /**
