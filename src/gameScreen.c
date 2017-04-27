@@ -163,7 +163,7 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
 
     char turnsLeft[50];
     // sprintf(turnsLeft, "Coups restants : %d/%d", conf->turnsLeft, conf->allowedTurns);
-    sprintf(turnsLeft, "%d coups restants", conf->turnsLeft);
+    sprintf(turnsLeft, "%d coup(s) restant(s)", conf->turnsLeft);
 
     SDL_Surface* surfaceMessage = TTF_RenderText_Blended(defaultFont, turnsLeft, messageColor);
     SDL_Texture* Message = SDL_CreateTextureFromSurface(ren, surfaceMessage);
