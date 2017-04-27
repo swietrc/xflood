@@ -45,7 +45,7 @@ void drawButton(char* txt, int x, int y, int w, int h, SDL_Color txtColor, SDL_C
     
 
     SDL_SetRenderDrawColor( ren, backgroundColor.r, backgroundColor.g,  backgroundColor.b, backgroundColor.a ); // Color background of button
-    SDL_RenderDrawRect( ren, &button_rect );
+    SDL_RenderFillRect( ren, &button_rect );
     SDL_RenderCopy(ren, text, NULL, &text_rect);
 
     // Free surface and texture

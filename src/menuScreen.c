@@ -64,13 +64,13 @@ static void handleMenuClicks(int x, int y, config* conf) {
  */
 static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
     // Set background to black
-    SDL_SetRenderDrawColor( ren, 0, 0, 0, 255 );
+    SDL_SetRenderDrawColor( ren, 0xFF, 0xFF, 0xFF, 255 );
 
     // Clear renderer
     SDL_RenderClear(ren);
 
     /** Writing label for size of board **/
-    SDL_Color messageColor = {0, 255, 255, 255};
+    SDL_Color messageColor = {0x55, 0x55, 0x55, 255};
 
     SDL_Surface* surfaceMessage = TTF_RenderText_Blended(defaultFont, "Taille de la grille", messageColor);
 
@@ -78,7 +78,7 @@ static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
 
     SDL_Rect Message_rect; //create a rect
     Message_rect.x = (WINDOW_WIDTH / 2) - (surfaceMessage->w / 2);  //controls the rect's x coordinate
-    Message_rect.y = 220; // controls the rect's y coordinte
+    Message_rect.y = 250; // controls the rect's y coordinte
     Message_rect.w = surfaceMessage->w; // controls the width of the rect
     Message_rect.h = surfaceMessage->h; // controls the height of the rect
 
@@ -91,23 +91,26 @@ static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
     const int w_buttons = 125;
     const int margin_buttons = 12;
 
-    SDL_Color backColorCurrent = {0, 150, 0, 255};
-    SDL_Color backColor = {50, 50, 50, 255};
+    SDL_Color backColor = {0x42, 0x72, 0x3d, 0xFF};
+
     // First button
-    SDL_Color messageColorB1 = {0, 0, 255, 255};
-    drawButton("12 x 12", x_buttons, y_buttons, w_buttons, 50, messageColorB1, conf->boardSize == 12 ? backColorCurrent: backColor, ren);
+    SDL_Color backColorB1 = {0x6F, 0xD8, 0x68, 0xFF};
+    SDL_Color backColorCurrentB1 = {0x3F, 0xD8, 0x38, 0xFF};
+    SDL_Color buttonTextColor = {0xF2, 0xF2, 0xF2, 0xFF};
+    drawButton("12 x 12", x_buttons, y_buttons, w_buttons, 50, buttonTextColor, conf->boardSize == 12 ? backColorCurrentB1 : backColorB1, ren);
 
     // Second button
-    SDL_Color messageColorB2 = {255, 255, 255, 255};
-    drawButton("18 x 18", x_buttons + w_buttons + margin_buttons, y_buttons, w_buttons, 50, messageColorB2, conf->boardSize == 18 ? backColorCurrent: backColor, ren);
+    SDL_Color backColorB2 = {0xFF, 0xB9, 0x5E, 0xFF};
+    SDL_Color backColorCurrentB2 = {0xFF, 0xB9, 0x10, 0xFF};
+    drawButton("18 x 18", x_buttons + w_buttons + margin_buttons, y_buttons, w_buttons, 50, buttonTextColor, conf->boardSize == 18 ? backColorCurrentB2 : backColorB2, ren);
 
     // Third button
-    SDL_Color messageColorB3 = {255, 0, 0, 255};
-    drawButton("24 x 24", x_buttons + (2*(w_buttons+margin_buttons)), y_buttons, w_buttons, 50, messageColorB3, conf->boardSize == 24 ? backColorCurrent: backColor, ren);
+    SDL_Color backColorB3 = {0xF9, 0x4D, 0x4D, 0xFF};
+    SDL_Color backColorCurrentB3 = {0xFF, 0x2D, 0x2D, 0xFF};
+    drawButton("24 x 24", x_buttons + (2*(w_buttons+margin_buttons)), y_buttons, w_buttons, 50, buttonTextColor, conf->boardSize == 24 ? backColorCurrentB3: backColorB3, ren);
 
     // Play game button
-    SDL_Color messageColorB4 = {0, 255, 0, 255};
-    drawButton("Let's go !", x_buttons, 400, w_total, 100, messageColorB4, backColor, ren);
+    drawButton("Let's go !", x_buttons, 400, w_total, 100, buttonTextColor, backColor, ren);
 
     /** Adding Logo image **/
     SDL_Surface* surfaceImage = IMG_Load("resources/img/logo.png");
@@ -115,7 +118,7 @@ static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
 
     SDL_Rect imageRect; //create a rect
     imageRect.x = (WINDOW_WIDTH/2) - (surfaceImage->w/2);  //controls the rect's x coordinate
-    imageRect.y = 5; // controls the rect's y coordinte
+    imageRect.y = 40; // controls the rect's y coordinte
     imageRect.w = surfaceImage->w; // controls the width of the rect
     imageRect.h = surfaceImage->h; // controls the height of the rect
 
