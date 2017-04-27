@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
     }
 
     // Initialize default font
-    defaultFont = TTF_OpenFont("vendor/fonts/Roboto-Regular.ttf", 42); // open a font style and set a size
+    defaultFont = TTF_OpenFont("vendor/fonts/Roboto-Regular.ttf", 36); // open a font style and set a size
     buttonFont = TTF_OpenFont("vendor/fonts/upheavtt.ttf", 30); // open a font style and set a size
 
     // Set background to black
