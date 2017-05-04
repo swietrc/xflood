@@ -1,0 +1,46 @@
+=================================================================
+This bench was ran on : Thu May  4 17:08:44 2017
+These changes have been made since last bench : ---
+=================================================================
+
+Board to solve : 
+
+GORYYRORM
+MMRRMYBGY
+GBOMMGMGR
+YBOBMGBBG
+YOMYYBRMO
+GYMORBMYG
+MMRYMYYMM
+GBGOMORYG
+RBMYRMOOB
+
+Solution : 
+
+ [ R  Y  R  O  R  M  Y  G  B  M  Y  M  R  G  O  Y  B  R  M ] 
+
+solved in 5.553725 seconds.
+
+=================================================================
+This bench was ran on : Thu May  4 17:11:28 2017
+These changes have been made since last bench : turned on gcc o3 optimization
+=================================================================
+
+Board to solve : 
+
+GORYYRORM
+MMRRMYBGY
+GBOMMGMGR
+YBOBMGBBG
+YOMYYBRMO
+GYMORBMYG
+MMRYMYYMM
+GBGOMORYG
+RBMYRMOOB
+
+Solution : 
+
+ [ R  Y  R  O  R  M  Y  G  B  M  Y  M  R  G  O  Y  B  R  M ] 
+
+solved in 2.699064 seconds.
+

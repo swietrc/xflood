@@ -1,5 +1,5 @@
 CC=gcc
-FLAGS=-Wall -Wextra --std=c99
+FLAGS=-Wall -Wextra --std=c99 -O3
 
 ################# MODULES ####################
 
@@ -46,6 +46,9 @@ solver: src/solver.c board.o colorList.o
 
 allTests: allTests.o boardTests.o board.o colorListTests.o colorList.o solverTests.o solver.o
 	$(CC) allTests.o boardTests.o board.o colorListTests.o colorList.o solverTests.o solver.o -o test/allTests $(FLAGS) -lcunit
+
+solverBench: test/solverBenchmark.c board.o solver.o colorList.o
+	$(CC) test/solverBenchmark.c board.o solver.o colorList.o -o test/solverBenchmark $(FLAGS)
 
 ################### TASKS #####################
 
