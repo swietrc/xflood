@@ -42,11 +42,12 @@ void drawButton(char* txt, int x, int y, int w, int h, SDL_Color txtColor, SDL_C
     button_rect.h = h;
     text_rect.x = button_rect.x + ((button_rect.w / 2) - (text_rect.w / 2));  //controls the rect's x coordinate
     text_rect.y = button_rect.y + ((button_rect.h / 2) - (text_rect.h / 2));  //controls the rect's x coordinate
-    
 
     SDL_SetRenderDrawColor( ren, backgroundColor.r, backgroundColor.g,  backgroundColor.b, backgroundColor.a ); // Color background of button
     SDL_RenderFillRect( ren, &button_rect );
     SDL_RenderCopy(ren, text, NULL, &text_rect);
+
+    // printf("Button %s\nTL: %d %d  BR: %d %d\n",txt, x, y, x+w, y+h); // Debug line to print button limits coords
 
     // Free surface and texture
     SDL_FreeSurface(surfaceText);

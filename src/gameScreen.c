@@ -51,7 +51,7 @@ static void handleBoardClicks(size_t x, size_t y, config* conf) {
   }
 
   // click on back-to-menu button
-  if(x >= BOARDWIDTH + 105 && x <=  BOARDWIDTH + 405 && y >= 540 && y <= 620){
+  if(x >= 609 && x <=  909 && y >= 500 && y <= 580){
     conf->state = menuState;
   }
 
@@ -96,23 +96,23 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
       // Set render color ( rect will be rendered in this color )
       switch(getBoardCell(conf->board, x, y)) {
         case 'R':
-          SDL_SetRenderDrawColor( ren, 255, 0, 0, 255 );
-              break;
+          SDL_SetRenderDrawColor( ren, 0xFF, 0x5D, 0x5D, 0xFF );
+          break;
         case 'G':
-          SDL_SetRenderDrawColor( ren, 0, 255, 0, 255 );
-              break;
+          SDL_SetRenderDrawColor( ren, 0x4F, 0xE8, 0x58, 0xFF );
+          break;
         case 'B':
-          SDL_SetRenderDrawColor( ren, 0, 0, 255, 255 );
-              break;
+          SDL_SetRenderDrawColor( ren, 0x29, 0x71, 0xc4, 0xFF );
+          break;
         case 'Y':
-          SDL_SetRenderDrawColor( ren, 255, 255, 0, 255 );
-              break;
+          SDL_SetRenderDrawColor( ren, 0xFF, 0xC2, 0x49, 0xFF );
+          break;
         case 'O':
-          SDL_SetRenderDrawColor( ren, 0, 255, 255, 255 );
-              break;
+          SDL_SetRenderDrawColor( ren, 0x62, 0xC4, 0xC9, 0xFF );
+          break;
         case 'M':
-          SDL_SetRenderDrawColor( ren, 255, 0, 255, 255 );
-              break;
+          SDL_SetRenderDrawColor( ren, 0xBE, 0x7A, 0xFF, 0xFF );
+          break;
       }
 
       // Render rect
@@ -132,23 +132,23 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
     // Set render color ( rect will be rendered in this color )
     switch(i) {
       case 0:
-        SDL_SetRenderDrawColor( ren, 255, 0, 0, 255 );
-            break;
+        SDL_SetRenderDrawColor( ren, 0xFF, 0x5D, 0x5D, 0xFF );
+        break;
       case 1:
-        SDL_SetRenderDrawColor( ren, 0, 255, 0, 255 );
-            break;
+        SDL_SetRenderDrawColor( ren, 0x4F, 0xE8, 0x58, 0xFF );
+        break;
       case 2:
-        SDL_SetRenderDrawColor( ren, 0, 0, 255, 255 );
-            break;
+        SDL_SetRenderDrawColor( ren, 0x29, 0x71, 0xc4, 0xFF );
+        break;
       case 3:
-        SDL_SetRenderDrawColor( ren, 255, 255, 0, 255 );
-            break;
+        SDL_SetRenderDrawColor( ren, 0xFF, 0xC2, 0x49, 0xFF );
+        break;
       case 4:
-        SDL_SetRenderDrawColor( ren, 0, 255, 255, 255 );
-            break;
+        SDL_SetRenderDrawColor( ren, 0x62, 0xC4, 0xC9, 0xFF );
+        break;
       case 5:
-        SDL_SetRenderDrawColor( ren, 255, 0, 255, 255 );
-            break;
+        SDL_SetRenderDrawColor( ren, 0xBE, 0x7A, 0xFF, 0xFF );
+        break;
     }
 
 
@@ -157,34 +157,34 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
 
 
   }
-    /** Writing label for size of board and turns left**/
-    // SDL_Color messageColor = {0, 0, 255, 255};
-    SDL_Color messageColor = {0x42, 0x72, 0x3D, 255};
+  /** Writing label for size of board and turns left**/
+  // SDL_Color messageColor = {0, 0, 255, 255};
+  SDL_Color messageColor = {0x42, 0x72, 0x3D, 255};
 
-    char turnsLeft[50];
-    // sprintf(turnsLeft, "Coups restants : %d/%d", conf->turnsLeft, conf->allowedTurns);
-    sprintf(turnsLeft, "%d coup(s) restant(s)", conf->turnsLeft);
+  char turnsLeft[50];
+  // sprintf(turnsLeft, "Coups restants : %d/%d", conf->turnsLeft, conf->allowedTurns);
+  sprintf(turnsLeft, "%d coup(s) restant(s)", conf->turnsLeft);
 
-    SDL_Surface* surfaceMessage = TTF_RenderText_Blended(defaultFont, turnsLeft, messageColor);
-    SDL_Texture* Message = SDL_CreateTextureFromSurface(ren, surfaceMessage);
+  SDL_Surface* surfaceMessage = TTF_RenderText_Blended(defaultFont, turnsLeft, messageColor);
+  SDL_Texture* Message = SDL_CreateTextureFromSurface(ren, surfaceMessage);
 
-    SDL_Rect Message_rect; //create a rect
-    Message_rect.x = BOARDWIDTH + 110;  //controls the rect's x coordinate
-    Message_rect.y = 20; // controls the rect's y coordinte
-    Message_rect.w = surfaceMessage->w; // controls the width of the rect
-    Message_rect.h = surfaceMessage->h; // controls the height of the rect
+  SDL_Rect Message_rect; //create a rect
+  Message_rect.x = BOARDWIDTH + 110;  //controls the rect's x coordinate
+  Message_rect.y = 20; // controls the rect's y coordinte
+  Message_rect.w = surfaceMessage->w; // controls the width of the rect
+  Message_rect.h = surfaceMessage->h; // controls the height of the rect
 
-    SDL_RenderCopy(ren, Message, NULL, &Message_rect);
-    // SDL_RenderDrawRect(ren, &Message_rect);
+  SDL_RenderCopy(ren, Message, NULL, &Message_rect);
+  // SDL_RenderDrawRect(ren, &Message_rect);
 
-    // back to menu button
-    SDL_Color backToMenuTxtColor = {0xF2, 0xF2, 0xF2, 255};
-    SDL_Color backToMenuBgColor = {0x42, 0x72, 0x3D, 255};
-    drawButton(" Retour au menu ", BOARDWIDTH + 105, 500, 300, 80, backToMenuTxtColor, backToMenuBgColor, ren);
+  // back to menu button
+  SDL_Color backToMenuTxtColor = {0xF2, 0xF2, 0xF2, 255};
+  SDL_Color backToMenuBgColor = {0x42, 0x72, 0x3D, 255};
+  drawButton(" Retour au menu ", BOARDWIDTH + 105, 500, 300, 80, backToMenuTxtColor, backToMenuBgColor, ren);
 
-    // Free surface and texture
-    SDL_FreeSurface(surfaceMessage);
-    SDL_DestroyTexture(Message);
+  // Free surface and texture
+  SDL_FreeSurface(surfaceMessage);
+  SDL_DestroyTexture(Message);
 }
 
 /**
