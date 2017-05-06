@@ -20,6 +20,8 @@ struct colorNode {
 struct colorList {
     ColorNode* head;
     ColorNode* current;
+    ColorNode* tail;
+    size_t size;
 };
 
 /**
@@ -31,6 +33,8 @@ ColorList* ColorListCreateEmpty(){
 	ColorList *list = malloc(sizeof(ColorList));
 	list->head = NULL;
 	list->current = NULL;
+  list->tail = NULL;
+  list->size = 0;
 
 	return list;
 }
@@ -41,26 +45,21 @@ ColorList* ColorListCreateEmpty(){
  * \param color The value of the element to add
  */
 void ColorListPush(ColorList* list, char color){
-    if(list == NULL)
-        return;
-
-	ColorNode *node = malloc(sizeof(ColorNode));
+  ColorNode *node = malloc(sizeof(ColorNode));
 	node->val = color;
 	node->next = NULL;
 
-    if (list->head == NULL) {
-        list->head = node;
-        list->current = node;
-        return;
-    }
+  if (list->head == NULL) { // pushing first element
+    list->head = node;
+    list->current = node;
+    list->tail = node;
+  }
+  else { // not pushing first element
+    list->tail->next = node;
+    list->tail = node;
+  }
 
-    ColorNode* current = list->head;
-
-    while (current->next != NULL) {
-        current = current->next;
-    }
-
-    current->next = node;
+  list->size++;
 }
 
 /**
@@ -70,19 +69,7 @@ void ColorListPush(ColorList* list, char color){
  * @return The number of element of the list.
  */
 size_t ColorListSize(ColorList* list){
-    if (list == NULL)
-        return 0;
-    ColorNode* current = list->head;
-    if (current == NULL)
-        return 0;
-
-    size_t s = 1;
-
-    while (current->next != NULL) {
-        s++;
-        current = current->next;
-    }
-    return s;
+    return list->size;
 }
 
 /**
@@ -111,19 +98,15 @@ bool ColorListForward(ColorList* l, char* element){
  * 
  */
 void ColorListClean(ColorList* l){
-    if (l == NULL)
-        return;
+  ColorNode* tmp = NULL;
 
-    if (l->head == NULL)
-        return;
-    
-    ColorNode* tmp = NULL;
+  while (l->head != NULL) {
+      tmp = l->head;
+      l->head = l->head->next;
+      free(tmp);
+  }
 
-    while (l->head != NULL) {
-        tmp = l->head;
-        l->head = l->head->next;
-        free(tmp);
-    }
+  l->size = 0;
 }
 
 /**

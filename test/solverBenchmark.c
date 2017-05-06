@@ -10,10 +10,10 @@ int main(int argc, char** argv) {
     changesDesciption = argv[1];
   }
 
-  Board* b = initBoardFromFile(9, "./test/storage/test.data");
+  Board* b = initBoardFromFile(9, "./test/storage/benchBoard9.data");
   ColorList* sol = ColorListCreateEmpty();
   float startTime = (float)clock()/CLOCKS_PER_SEC;
-  solveBoard(b, sol, NULL);
+  solveBoard(b, sol, ColorListCreateEmpty());
   float endTime = (float)clock()/CLOCKS_PER_SEC;
   float timeElapsed = endTime - startTime;
 

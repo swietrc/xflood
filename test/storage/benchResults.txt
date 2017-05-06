@@ -44,3 +44,26 @@ Solution :
 
 solved in 2.699064 seconds.
 
+=================================================================
+This bench was ran on : Sat May  6 16:43:25 2017
+These changes have been made since last bench : memorized size and tail of colorList
+=================================================================
+
+Board to solve : 
+
+GORYYRORM
+MMRRMYBGY
+GBOMMGMGR
+YBOBMGBBG
+YOMYYBRMO
+GYMORBMYG
+MMRYMYYMM
+GBGOMORYG
+RBMYRMOOB
+
+Solution : 
+
+ [ O  R  Y  R  O  R  M  Y  G  B  M  Y  M  R  G  O  Y  B  R  M ] 
+
+solved in 2.921891 seconds.
+
