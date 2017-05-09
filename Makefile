@@ -21,6 +21,12 @@ game.o: src/game.c src/game.h
 menuScreen.o: src/menuScreen.c src/menuScreen.h
 	$(CC) -c src/menuScreen.c $(FLAGS)
 
+solverScreen.o: src/solverScreen.c src/solverScreen.h
+	$(CC) -c src/solverScreen.c $(FLAGS)
+
+endGameScreen.o: src/endGameScreen.c src/endGameScreen.h
+	$(CC) -c src/endGameScreen.c $(FLAGS)
+
 solver.o: src/solver.c src/solver.h src/colorList.h board.o
 	$(CC) -c src/solver.c $(FLAGS)
 
@@ -38,8 +44,8 @@ allTests.o: test/allTests.c boardTests.o colorListTests.o solverTests.o
 
 ############## REGULAR TARGETS ################
 
-all: src/main.c board.o gameScreen.o game.o menuScreen.o utils.o
-	$(CC) src/main.c board.o gameScreen.o game.o menuScreen.o utils.o -o Xflood $(FLAGS) -lSDL2 -lSDL2_ttf -lSDL2_image
+all: src/main.c board.o gameScreen.o game.o menuScreen.o solverScreen.o endGameScreen.o utils.o colorList.o solver.o
+	$(CC) src/main.c board.o gameScreen.o game.o menuScreen.o solverScreen.o endGameScreen.o utils.o colorList.o solver.o -o Xflood $(FLAGS) -lSDL2 -lSDL2_ttf -lSDL2_image
 
 solver: src/solver.c board.o colorList.o
 	$(CC) src/solver.c board.o colorList.o -o solver $(FLAGS)

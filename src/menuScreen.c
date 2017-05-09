@@ -15,6 +15,8 @@
 #include "board.h"
 #include "utils.h"
 #include "menuScreen.h"
+#include "colorList.h"
+#include "solver.h"
 
 static int needsRefresh = 1;
 
@@ -51,8 +53,15 @@ static void handleMenuClicks(int x, int y, config* conf) {
                 conf->allowedTurns = 44;
                 break;
         }
-        conf->turnsLeft = conf->allowedTurns;
         conf->board = initRandomBoard(conf->boardSize);
+        if(conf->boardSize < 10) {
+          conf->solvingBoard = copyBoard(conf->board);
+          conf->bestSol = ColorListCreateEmpty();
+          ColorList* crtSol = ColorListCreateEmpty();
+          solveBoard(conf->board, conf->bestSol, crtSol);
+          conf->allowedTurns = ColorListSize(conf->bestSol);
+        }
+        conf->turnsLeft = conf->allowedTurns;
     }
 }
 
@@ -129,9 +138,9 @@ static void displayMenuScreen(SDL_Renderer* ren, config* conf) {
     SDL_DestroyTexture(Message);
     SDL_FreeSurface(surfaceImage);
     SDL_DestroyTexture(textureImage);
-    
+
     SDL_SetRenderDrawColor(ren, 0xFF, 0, 0, 0xFF);
-    
+
     // DEBUG Center Line
     // SDL_RenderDrawLine(ren, WINDOW_WIDTH / 2, 0, WINDOW_WIDTH / 2, WINDOW_HEIGHT);
 }

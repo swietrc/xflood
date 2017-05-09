@@ -55,19 +55,20 @@ static void handleBoardClicks(size_t x, size_t y, config* conf) {
     conf->state = menuState;
   }
 
+  // click on solution button
+  if(x >= 609 && x <=  909 && y >= 100 && y <= 180) {
+    conf->state = solverState;
+  }
+
   // Check if color contains a correct value
   if(!(color != 'R' && color != 'G' && color != 'B' && color != 'Y' && color != 'O' && color != 'M') && color != getBoardCell(conf->board, 0, 0)){
     floodBoard(conf->board, getBoardCell(conf->board, 0, 0), color, 0, 0);
     conf->turnsLeft--;
     if(isBoardOneColored(conf->board)){
-      printf("gagné\n");
-      freeBoard(conf->board); // free Board at end of game
-      conf->state = menuState;
+      conf->state = victoryState;
     }
     else if(conf->turnsLeft == 0){
-      printf("perdu\n");
-      freeBoard(conf->board); // free Board at end of game
-      conf->state = menuState;
+      conf->state = defeatState;
     }
   }
 }
@@ -77,7 +78,7 @@ static void handleBoardClicks(size_t x, size_t y, config* conf) {
  * \fn void displayGameScreen(SDL_Renderer* ren, config* conf)
  * \brief Displays the board in the game window
  * \param ren SDL_Renderer object used to display the board
- * \param conf Config struct containing board, boardSize and game/menuState
+ * \param conf Config struct containing board, boardSize and states
  */
 static void displayGameScreen(SDL_Renderer* ren, config* conf) {
   // Set background to black
@@ -155,7 +156,6 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
     // Render board
     SDL_RenderFillRect( ren, &rect );
 
-
   }
   /** Writing label for size of board and turns left**/
   // SDL_Color messageColor = {0, 0, 255, 255};
@@ -177,10 +177,13 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
   SDL_RenderCopy(ren, Message, NULL, &Message_rect);
   // SDL_RenderDrawRect(ren, &Message_rect);
 
+  // display solution button
+  SDL_Color btnTxtColor = {0xF2, 0xF2, 0xF2, 255};
+  SDL_Color btnBgColor = {0x42, 0x72, 0x3D, 255};
+  drawButton(" Solution ", BOARDWIDTH + 105, 100, 300, 80, btnTxtColor, btnBgColor, ren);
+
   // back to menu button
-  SDL_Color backToMenuTxtColor = {0xF2, 0xF2, 0xF2, 255};
-  SDL_Color backToMenuBgColor = {0x42, 0x72, 0x3D, 255};
-  drawButton(" Retour au menu ", BOARDWIDTH + 105, 500, 300, 80, backToMenuTxtColor, backToMenuBgColor, ren);
+  drawButton(" Retour au menu ", BOARDWIDTH + 105, 500, 300, 80, btnTxtColor, btnBgColor, ren);
 
   // Free surface and texture
   SDL_FreeSurface(surfaceMessage);
@@ -191,7 +194,7 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
  * \fn void gameScreenCheckEvents(SDL_Event event, config* conf)
  * \brief Function checking for events and treating them
  * \param event SDL_Event object used to check and treat the current event
- * \param conf Config struct containing board, boardSize and game/menuState
+ * \param conf Config struct containing board, boardSize and states
  */
 static void gameScreenCheckEvents(SDL_Event event, config* conf) {
   needsRefresh = 1;
@@ -209,7 +212,7 @@ static void gameScreenCheckEvents(SDL_Event event, config* conf) {
  * \brief Main function of gameScreen, checking for events and displaying the gameScreen
  * \param event SDL_Event object used to check and treat the current event
  * \param ren SDL_Renderer object used to display the board
- * \param conf Config struct containing board, boardSize and game/menuState
+ * \param conf Config struct containing board, boardSize and states
  */
 extern void gameScreen(SDL_Event event, SDL_Renderer* ren, config* conf) {
   if(needsRefresh){
