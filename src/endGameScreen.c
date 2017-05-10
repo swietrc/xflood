@@ -34,6 +34,7 @@ static void handleBoardClicks(size_t x, size_t y, config* conf) {
 
   // click on solution button
   if(x >= 609 && x <=  909 && y >= 100 && y <= 180) {
+    conf->solvingBoard = copyBoard(conf->staticBoard);
     conf->state = solverState;
   }
 }
@@ -61,7 +62,6 @@ static void displayEndGameScreen(SDL_Renderer* ren, config* conf) {
   Board* b = initRandomBoard(conf->boardSize);
   for(size_t x = 0; x < conf->boardSize; x++) {
     for(size_t y = 0; y < conf->boardSize; y++) {
-      needsRefresh = 0;
       // Init rect
       SDL_Rect rect;
       rect.x = x + (BOARDWIDTH / conf->boardSize)*x;
@@ -93,8 +93,8 @@ static void displayEndGameScreen(SDL_Renderer* ren, config* conf) {
 
       // Render rect
       SDL_RenderFillRect( ren, &rect );
-      sleep(0.75);
-      SDL_RenderPresent(ren);
+      //sleep(0.75);
+      //SDL_RenderPresent(ren);
     }
   }
 

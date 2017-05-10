@@ -46,7 +46,10 @@ static void handleBoardClicks(size_t x, size_t y, config* conf) {
 
   // click on back-to-game button
   if(x >= 609 && x <=  909 && y >= 100 && y <= 180) {
-    conf->state = gameState;
+    if(conf->turnsLeft == 0)
+      conf->state = defeatState;
+    else
+      conf->state = gameState;
   }
 
   // click on next move button
@@ -156,7 +159,10 @@ static void solutionTooLongSorry(SDL_Renderer* ren, SDL_Event event, config* con
 
     // click on back-to-game button
     if(event.button.x >= 609 && event.button.x <=  909 && event.button.y >= 100 && event.button.y <= 180) {
-      conf->state = gameState;
+      if(conf->turnsLeft == 0)
+        conf->state = defeatState;
+      else
+        conf->state = gameState;
     }
       break;
   }
@@ -171,7 +177,7 @@ static void solutionTooLongSorry(SDL_Renderer* ren, SDL_Event event, config* con
  * \param conf Config struct containing board, boardSize and states
  */
 extern void solverScreen(SDL_Event event, SDL_Renderer* ren, config* conf) {
-  if(conf->boardSize < 10) {
+  if(conf->boardSize <= 10) {
     if(needsRefresh){
       SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
       SDL_RenderClear(ren);

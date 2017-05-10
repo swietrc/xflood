@@ -21,7 +21,8 @@ typedef struct config {
   int turnsLeft;     //!< Number of turns left for the current game
   Board* board;      //!< Data about the board of the current game
   ColorList* bestSol; //!< Best solution to solve the current board
-  Board* solvingBoard; //!< Data about the board being solved (initialized as a copy of board)
+  Board* solvingBoard; //!< Data about the board being solved
+  Board* staticBoard; //!< Board initialized as a copy of board, but will never be modified
 } config;
 
 #endif

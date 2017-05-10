@@ -54,8 +54,9 @@ static void handleMenuClicks(int x, int y, config* conf) {
                 break;
         }
         conf->board = initRandomBoard(conf->boardSize);
-        if(conf->boardSize < 10) {
-          conf->solvingBoard = copyBoard(conf->board);
+        conf->staticBoard = copyBoard(conf->board);
+        if(conf->boardSize <= 10) {
+          conf->solvingBoard = copyBoard(conf->staticBoard);
           conf->bestSol = ColorListCreateEmpty();
           ColorList* crtSol = ColorListCreateEmpty();
           solveBoard(conf->board, conf->bestSol, crtSol);
