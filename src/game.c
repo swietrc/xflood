@@ -12,6 +12,7 @@
 #include <SDL2/SDL.h>
 #include "gameScreen.h"
 #include "menuScreen.h"
+#include "endGameScreen.h"
 #include "solverScreen.h"
 #include "board.h"
 #include "game.h"

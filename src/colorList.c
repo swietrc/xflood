@@ -41,8 +41,9 @@ ColorList* ColorListCreateEmpty(){
  * \param color The value of the element to add
  */
 void ColorListPush(ColorList* list, char color){
-    if(list == NULL)
+    if (list == NULL) {
         return;
+    }
 
 	ColorNode *node = malloc(sizeof(ColorNode));
 	node->val = color;
