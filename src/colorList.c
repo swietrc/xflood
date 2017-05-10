@@ -105,6 +105,20 @@ bool ColorListForward(ColorList* l, char* element){
 }
 
 /**
+ * \fn void ColorListReset(ColorList* l)
+ * \brief Resets current node to list head.
+ * @param l The list
+ */
+void ColorListReset(ColorList* l) {
+    if (l == NULL)
+        return;
+    if (l->head == NULL)
+        return;
+
+    l->current = l->head;
+}
+
+/**
  * \fn void ColorListClean(ColorList* l)
  * \brief Free the list elements form the memory
  * @param l The list to remove the elements from.
