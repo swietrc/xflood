@@ -48,6 +48,8 @@ static void handleBoardClicks(size_t x, size_t y, config* conf) {
   if(x >= 609 && x <=  909 && y >= 100 && y <= 180) {
     if(conf->turnsLeft == 0)
       conf->state = defeatState;
+    else if(isBoardOneColored(conf->board))
+      conf->state = victoryState;
     else
       conf->state = gameState;
   }
