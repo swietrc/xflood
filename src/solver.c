@@ -121,7 +121,7 @@ int solveBoard(Board* b, ColorList* bestSolution, ColorList* currentSolution) {
  * \param size the size of the top-left area
  */
 void getColoredAreaSize(Board* b, bool* visitedTiles, size_t x, size_t y, size_t* size) {
-  
+
   if (getBoardCell(b, x, y) != getBoardCell(b, 0, 0)) {
       return;
   }
@@ -154,8 +154,6 @@ void getColoredAreaSize(Board* b, bool* visitedTiles, size_t x, size_t y, size_t
  * \return size of the solution
  */
 int solveBoardEfficient(Board* b, ColorList* solution) {
-  puts("\n\ncoucou\n\n");
-
   bool* visitedTiles;
   ColorList* possibleColors = NULL;
 

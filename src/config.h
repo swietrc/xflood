@@ -12,6 +12,9 @@
 
 #include "colorList.h"
 
+#define MAX_SIZE_SOLVER 8
+#define BOARDWIDTH 504
+
 typedef enum screenState { menuState, gameState, solverState, defeatState, victoryState } screenState;
 
 typedef struct config {

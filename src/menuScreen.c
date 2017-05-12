@@ -55,13 +55,15 @@ static void handleMenuClicks(int x, int y, config* conf) {
         }
         conf->board = initRandomBoard(conf->boardSize);
         conf->staticBoard = copyBoard(conf->board);
-        if(conf->boardSize <= 10) {
-          conf->solvingBoard = copyBoard(conf->staticBoard);
-          conf->bestSol = ColorListCreateEmpty();
+        conf->solvingBoard = copyBoard(conf->staticBoard);
+        conf->bestSol = ColorListCreateEmpty();
+        if(conf->boardSize <= MAX_SIZE_SOLVER) {
           ColorList* crtSol = ColorListCreateEmpty();
           solveBoard(conf->board, conf->bestSol, crtSol);
-          conf->allowedTurns = ColorListSize(conf->bestSol);
         }
+        else
+          solveBoardEfficient(conf->board, conf->bestSol);
+        conf->allowedTurns = ColorListSize(conf->bestSol);
         conf->turnsLeft = conf->allowedTurns;
     }
 }

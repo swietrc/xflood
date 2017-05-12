@@ -137,41 +137,6 @@ static void solverScreenCheckEvents(SDL_Event event, config* conf) {
 }
 
 /**
- * \fn void solutionTooLongSorry(SDL_Renderer* ren, SDL_Event event, config* conf)
- * \brief When boardSize > 10, the solver isn't able to solve it. This function displays a message to inform the player
- * \param ren SDL_Renderer object used to display the screen
- * \param event SDL_Event object used to check and treat the current event
- * \param conf Config struct containing board, boardSize and states
- */
-static void solutionTooLongSorry(SDL_Renderer* ren, SDL_Event event, config* conf) {
-  SDL_SetRenderDrawColor(ren, 255, 255, 255, 255);
-  SDL_RenderClear(ren);
-  // back to game button
-  SDL_Color btnTxtColor = {0xF2, 0xF2, 0xF2, 255};
-  SDL_Color btnBgColor = {0x42, 0x72, 0x3D, 255};
-  drawButton(" Solution impossible en moins de 1000 ans... ", 105, 250, 800, 80, btnTxtColor, btnBgColor, ren);
-  drawButton(" Retour au jeu ", BOARDWIDTH + 105, 100, 300, 80, btnTxtColor, btnBgColor, ren);
-  drawButton(" Retour au menu ", BOARDWIDTH + 105, 500, 300, 80, btnTxtColor, btnBgColor, ren);
-  switch(event.type) {
-    case SDL_MOUSEBUTTONDOWN:
-    // click on back-to-menu button
-    if(event.button.x >= 609 && event.button.x <=  909 && event.button.y >= 500 && event.button.y <= 580){
-      conf->state = menuState;
-    }
-
-    // click on back-to-game button
-    if(event.button.x >= 609 && event.button.x <=  909 && event.button.y >= 100 && event.button.y <= 180) {
-      if(conf->turnsLeft == 0)
-        conf->state = defeatState;
-      else
-        conf->state = gameState;
-    }
-      break;
-  }
-  SDL_RenderPresent(ren);
-}
-
-/**
  * \fn void solverScreen(SDL_Event event, SDL_Renderer* ren, config* conf)
  * \brief Main function of solverScreen, checking for events and displaying the solverScreen
  * \param event SDL_Event object used to check and treat the current event
@@ -179,15 +144,11 @@ static void solutionTooLongSorry(SDL_Renderer* ren, SDL_Event event, config* con
  * \param conf Config struct containing board, boardSize and states
  */
 extern void solverScreen(SDL_Event event, SDL_Renderer* ren, config* conf) {
-  if(conf->boardSize <= 10) {
-    if(needsRefresh){
-      SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
-      SDL_RenderClear(ren);
-      displaySolverScreen(ren, conf);
-      SDL_RenderPresent(ren);
-    }
-    solverScreenCheckEvents(event, conf);
+  if(needsRefresh){
+    SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
+    SDL_RenderClear(ren);
+    displaySolverScreen(ren, conf);
+    SDL_RenderPresent(ren);
   }
-  else
-    solutionTooLongSorry(ren, event, conf);
+  solverScreenCheckEvents(event, conf);
 }

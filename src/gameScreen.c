@@ -57,10 +57,8 @@ static void handleBoardClicks(size_t x, size_t y, config* conf) {
 
   // click on solution button
   if(x >= 609 && x <=  909 && y >= 100 && y <= 180) {
-    if(conf->boardSize <= 10) {
-      conf->solvingBoard = copyBoard(conf->staticBoard); // reset board
-      ColorListReset(conf->bestSol); // reset best solution list
-    }
+    conf->solvingBoard = copyBoard(conf->staticBoard); // reset board
+    ColorListReset(conf->bestSol); // reset best solution list
     conf->state = solverState;
   }
 

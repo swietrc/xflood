@@ -6,8 +6,6 @@
 
 #include "config.h"
 
-#define BOARDWIDTH 504
-
 extern void solverScreen(SDL_Event event, SDL_Renderer* ren, config* conf);
 
 #endif
