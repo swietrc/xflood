@@ -87,10 +87,11 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
   SDL_SetRenderDrawColor( ren, 0xFF, 0xFF, 0xFF, 255 );
   SDL_RenderClear(ren);
 
+  // Init rect
+  SDL_Rect rect;
+
   for(size_t x = 0; x < conf->boardSize; x++) {
     for(size_t y = 0; y < conf->boardSize; y++) {
-      // Init rect
-      SDL_Rect rect;
       rect.x = x + (BOARDWIDTH / conf->boardSize)*x;
       rect.y = y + (BOARDWIDTH / conf->boardSize)*y;
       rect.w = (BOARDWIDTH / conf->boardSize);
@@ -126,7 +127,6 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
   // Creation of 6 buttons (one per color)
   for(int i = 0; i < 6; i ++) {
     int width = BOARDWIDTH / 6;
-    SDL_Rect rect;
     rect.x = width*i + ((conf->boardSize - 1) / 6 ) * i + i;
     rect.y = BOARDWIDTH + 25;
     rect.w = width + (conf->boardSize - 1) / 6;
@@ -177,7 +177,6 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
   Message_rect.h = surfaceMessage->h; // controls the height of the rect
 
   SDL_RenderCopy(ren, Message, NULL, &Message_rect);
-  // SDL_RenderDrawRect(ren, &Message_rect);
 
   // display solution button
   SDL_Color btnTxtColor = {0xF2, 0xF2, 0xF2, 255};
@@ -187,9 +186,20 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
   // back to menu button
   drawButton(" Retour au menu ", BOARDWIDTH + 105, 500, 300, 80, btnTxtColor, btnBgColor, ren);
 
+  // light bulb image
+  SDL_Surface* lb = SDL_LoadBMP("resources/img/light_bulb.bmp");
+  SDL_Texture* img = SDL_CreateTextureFromSurface(ren, lb);
+  rect.x = BOARDWIDTH + 420;
+  rect.y = 15;
+  rect.w = lb->w;
+  rect.h = lb->h;
+  SDL_RenderCopy(ren, img, NULL, &rect);
+
   // Free surface and texture
   SDL_FreeSurface(surfaceMessage);
+  SDL_FreeSurface(lb);
   SDL_DestroyTexture(Message);
+  SDL_DestroyTexture(img);
 }
 
 /**
