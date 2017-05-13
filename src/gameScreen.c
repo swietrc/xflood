@@ -280,9 +280,6 @@ static void handleBoardClicks(size_t x, size_t y, config* conf, SDL_Renderer* re
   }
 }
 
-
-
-
 /**
  * \fn void gameScreenCheckEvents(SDL_Event event, config* conf)
  * \brief Function checking for events and treating them
