@@ -215,6 +215,7 @@ static void displayNextBestMove(SDL_Renderer* ren, config* conf) {
   drawButton(" ", BOARDWIDTH + 200, 250, 100, 100, btnTxtColor, btnBgColor, ren);
 
   SDL_RenderPresent(ren);
+  ColorListDestroy(bestSolution);
 }
 
 /**
