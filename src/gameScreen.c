@@ -14,67 +14,9 @@
 #include "gameScreen.h"
 #include "game.h"
 #include "utils.h"
+#include "solver.h"
 
 static int needsRefresh = 1;
-
-/**
- * \fn void handleBoardClicks(size_t x, size_t y, config* conf)
- * \brief Updates the board with the color chosen by the user (color of the cell he clicked)
- * \param x X coordinate of the cell chosen by the user
- * \param y Y coordinate of the cell chosen by the user
- * \param conf Config struct containing board, boardSize and game/menuState
- */
-static void handleBoardClicks(size_t x, size_t y, config* conf) {
-  char color;
-  size_t width = BOARDWIDTH / 6;
-  size_t newX = x / ((BOARDWIDTH / conf->boardSize) + 1); // x position of cell in Board
-  size_t newY = y / ((BOARDWIDTH / conf->boardSize) + 1); // y position of cell in Board
-  // If user clicks on buttons
-  if(y >= BOARDWIDTH + 25 && y <= BOARDWIDTH + 25 + width + (conf->boardSize - 1) / 6) {
-    if(x <= width + ((conf->boardSize - 1) / 6 ) + 1)
-      color = 'R';
-    else if(x >= width + ((conf->boardSize - 1) / 6 ) + 1 && x <= width * 2 + ((conf->boardSize - 1) / 6 ) * 2 + 1)
-      color = 'G';
-    else if(x >= width * 2 + ((conf->boardSize - 1) / 6 ) * 2 + 1 && x <= width * 3 + ((conf->boardSize - 1) / 6 ) * 3 + 1)
-      color = 'B';
-    else if(x >= width * 3 + ((conf->boardSize - 1) / 6 ) * 3 + 1 && x <= width * 4 + ((conf->boardSize - 1) / 6 ) * 4 + 1)
-      color = 'Y';
-    else if(x >= width * 4 + ((conf->boardSize - 1) / 6 ) * 4 + 1 && x <= width * 5 + ((conf->boardSize - 1) / 6 ) * 5 + 1)
-      color = 'O';
-    else if(x >= width * 5 + ((conf->boardSize - 1) / 6 ) * 5 + 1 && x <= width * 6 + ((conf->boardSize - 1) / 6 ) * 6 + 1)
-      color = 'M';
-  }
-  else // User clicked on the board
-  {
-    if(newX < conf->boardSize)
-      color = getBoardCell(conf->board, newX, newY);
-  }
-
-  // click on back-to-menu button
-  if(x >= 609 && x <=  909 && y >= 500 && y <= 580){
-    conf->state = menuState;
-  }
-
-  // click on solution button
-  if(x >= 609 && x <=  909 && y >= 100 && y <= 180) {
-    conf->solvingBoard = copyBoard(conf->staticBoard); // reset board
-    ColorListReset(conf->bestSol); // reset best solution list
-    conf->state = solverState;
-  }
-
-  // Check if color contains a correct value
-  if(!(color != 'R' && color != 'G' && color != 'B' && color != 'Y' && color != 'O' && color != 'M') && color != getBoardCell(conf->board, 0, 0)){
-    floodBoard(conf->board, getBoardCell(conf->board, 0, 0), color, 0, 0);
-    conf->turnsLeft--;
-    if(isBoardOneColored(conf->board)){
-      conf->state = victoryState;
-    }
-    else if(conf->turnsLeft == 0){
-      conf->state = defeatState;
-    }
-  }
-}
-
 
 /**
  * \fn void displayGameScreen(SDL_Renderer* ren, config* conf)
@@ -203,17 +145,156 @@ static void displayGameScreen(SDL_Renderer* ren, config* conf) {
 }
 
 /**
+ * \fn void displayNextBestMove(SDL_Renderer* ren, config* conf)
+ * \brief Displays the next best color to play on the game screen
+ * \param ren SDL_Renderer object used to display the board
+ * \param conf Config struct containing board, boardSize and states
+ */
+static void displayNextBestMove(SDL_Renderer* ren, config* conf) {
+  conf->solvingBoard = copyBoard(conf->board);
+  ColorList* bestSolution = ColorListCreateEmpty(); // init best solution list
+
+  if(conf->boardSize <= MAX_SIZE_SOLVER) {
+    ColorList* crtSol = ColorListCreateEmpty();
+    solveBoard(conf->solvingBoard, bestSolution, crtSol);
+    ColorListDestroy(crtSol);
+  }
+  else
+    solveBoardEfficient(conf->solvingBoard, bestSolution);
+
+  // Set background to white
+  SDL_SetRenderDrawColor( ren, 0xFF, 0xFF, 0xFF, 255 );
+  SDL_RenderClear(ren);
+
+  displayGameScreen(ren, conf);
+  SDL_Color btnTxtColor = {0xF2, 0xF2, 0xF2, 255};
+  SDL_Color btnBgColor = {0xFF, 0xFF, 0xFF, 0xFF};
+
+  // Display next best color
+  char color;
+  ColorListForward(bestSolution, &color);
+  switch(color) {
+    case 'R':
+      btnBgColor.r = 0xFF;
+      btnBgColor.g = 0x5D;
+      btnBgColor.b = 0x5D;
+      btnBgColor.a = 0xFF;
+      break;
+    case 'G':
+      btnBgColor.r = 0x4F;
+      btnBgColor.g = 0xE8;
+      btnBgColor.b = 0x58;
+      btnBgColor.a = 0xFF;
+      break;
+    case 'B':
+      btnBgColor.r = 0x29;
+      btnBgColor.g = 0x71;
+      btnBgColor.b = 0xC4;
+      btnBgColor.a = 0xFF;
+      break;
+    case 'Y':
+      btnBgColor.r = 0xFF;
+      btnBgColor.g = 0xC2;
+      btnBgColor.b = 0x49;
+      btnBgColor.a = 0xFF;
+      break;
+    case 'O':
+      btnBgColor.r = 0x62;
+      btnBgColor.g = 0xC4;
+      btnBgColor.b = 0xC9;
+      btnBgColor.a = 0xFF;
+      break;
+    case 'M':
+      btnBgColor.r = 0xBE;
+      btnBgColor.g = 0x7A;
+      btnBgColor.b = 0xFF;
+      btnBgColor.a = 0xFF;
+      break;
+  }
+
+  drawButton(" ", BOARDWIDTH + 200, 250, 100, 100, btnTxtColor, btnBgColor, ren);
+
+  SDL_RenderPresent(ren);
+}
+
+/**
+ * \fn void handleBoardClicks(size_t x, size_t y, config* conf)
+ * \brief Updates the board with the color chosen by the user (color of the cell he clicked)
+ * \param x X coordinate of the cell chosen by the user
+ * \param y Y coordinate of the cell chosen by the user
+ * \param conf Config struct containing board, boardSize and game/menuState
+ */
+static void handleBoardClicks(size_t x, size_t y, config* conf, SDL_Renderer* ren) {
+  char color;
+  size_t width = BOARDWIDTH / 6;
+  size_t newX = x / ((BOARDWIDTH / conf->boardSize) + 1); // x position of cell in Board
+  size_t newY = y / ((BOARDWIDTH / conf->boardSize) + 1); // y position of cell in Board
+  // If user clicks on buttons
+  if(y >= BOARDWIDTH + 25 && y <= BOARDWIDTH + 25 + width + (conf->boardSize - 1) / 6) {
+    if(x <= width + ((conf->boardSize - 1) / 6 ) + 1)
+      color = 'R';
+    else if(x >= width + ((conf->boardSize - 1) / 6 ) + 1 && x <= width * 2 + ((conf->boardSize - 1) / 6 ) * 2 + 1)
+      color = 'G';
+    else if(x >= width * 2 + ((conf->boardSize - 1) / 6 ) * 2 + 1 && x <= width * 3 + ((conf->boardSize - 1) / 6 ) * 3 + 1)
+      color = 'B';
+    else if(x >= width * 3 + ((conf->boardSize - 1) / 6 ) * 3 + 1 && x <= width * 4 + ((conf->boardSize - 1) / 6 ) * 4 + 1)
+      color = 'Y';
+    else if(x >= width * 4 + ((conf->boardSize - 1) / 6 ) * 4 + 1 && x <= width * 5 + ((conf->boardSize - 1) / 6 ) * 5 + 1)
+      color = 'O';
+    else if(x >= width * 5 + ((conf->boardSize - 1) / 6 ) * 5 + 1 && x <= width * 6 + ((conf->boardSize - 1) / 6 ) * 6 + 1)
+      color = 'M';
+  }
+  else // User clicked on the board
+  {
+    if(newX < conf->boardSize)
+      color = getBoardCell(conf->board, newX, newY);
+  }
+
+  // click on back-to-menu button
+  if(x >= 609 && x <=  909 && y >= 500 && y <= 580){
+    conf->state = menuState;
+  }
+
+  // click on solution button
+  if(x >= 609 && x <=  909 && y >= 100 && y <= 180) {
+    conf->solvingBoard = copyBoard(conf->staticBoard); // reset board
+    ColorListReset(conf->bestSol); // reset best solution list
+    conf->state = solverState;
+  }
+
+  //click on light bulb
+  if(x >= BOARDWIDTH + 420 && x <=  BOARDWIDTH + 468 && y >= 15 && y <= 63) {
+    displayNextBestMove(ren, conf);
+  }
+
+  // Check if color contains a correct value
+  if(!(color != 'R' && color != 'G' && color != 'B' && color != 'Y' && color != 'O' && color != 'M') && color != getBoardCell(conf->board, 0, 0)){
+    floodBoard(conf->board, getBoardCell(conf->board, 0, 0), color, 0, 0);
+    conf->turnsLeft--;
+    if(isBoardOneColored(conf->board)){
+      conf->state = victoryState;
+    }
+    else if(conf->turnsLeft == 0){
+      conf->state = defeatState;
+    }
+  }
+}
+
+
+
+
+/**
  * \fn void gameScreenCheckEvents(SDL_Event event, config* conf)
  * \brief Function checking for events and treating them
  * \param event SDL_Event object used to check and treat the current event
  * \param conf Config struct containing board, boardSize and states
  */
-static void gameScreenCheckEvents(SDL_Event event, config* conf) {
+static void gameScreenCheckEvents(SDL_Event event, config* conf, SDL_Renderer* ren) {
   needsRefresh = 1;
   switch(event.type) {
     case SDL_MOUSEBUTTONDOWN:
-      handleBoardClicks(event.button.x, event.button.y, conf);
-          break;
+      handleBoardClicks(event.button.x, event.button.y, conf, ren);
+      break;
     default:
       needsRefresh = 0;
   }
@@ -234,5 +315,5 @@ extern void gameScreen(SDL_Event event, SDL_Renderer* ren, config* conf) {
     SDL_RenderPresent(ren);
   }
 
-  gameScreenCheckEvents(event, conf);
+  gameScreenCheckEvents(event, conf, ren);
 }

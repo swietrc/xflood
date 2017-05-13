@@ -60,6 +60,7 @@ static void handleMenuClicks(int x, int y, config* conf) {
         if(conf->boardSize <= MAX_SIZE_SOLVER) {
           ColorList* crtSol = ColorListCreateEmpty();
           solveBoard(conf->board, conf->bestSol, crtSol);
+          ColorListDestroy(crtSol);
         }
         else
           solveBoardEfficient(conf->board, conf->bestSol);
