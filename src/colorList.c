@@ -23,7 +23,7 @@ struct colorList {
 };
 
 /**
- * \fn ColorList* ColorListCreate()
+ * \fn ColorList* ColorListCreateEmpty()
  * \brief Initialises an empty color list.
  * \return Initialized empty color list
  */
@@ -123,7 +123,7 @@ void ColorListReset(ColorList* l) {
  * \fn void ColorListClean(ColorList* l)
  * \brief Free the list elements form the memory
  * @param l The list to remove the elements from.
- * 
+ *
  */
 void ColorListClean(ColorList* l){
     if (l == NULL)
@@ -131,7 +131,7 @@ void ColorListClean(ColorList* l){
 
     if (l->head == NULL)
         return;
-    
+
     ColorNode* tmp = NULL;
 
     while (l->head != NULL) {
@@ -152,7 +152,7 @@ void ColorListDestroy(ColorList* l){
 }
 
 /**
- * \fn colorListCopy(ColorList* src, ColorList* dst)
+ * \fn ColorListCopy(ColorList* src, ColorList* dst)
  * \brief Cleans dst list and copy src list elements into dst.
  * @param src The list to copy from.
  * @param dst The list to copy to.
@@ -186,7 +186,7 @@ void ColorListPrint(ColorList* l) {
 }
 
 /**
- * \fn bool ColorListIsIn(ColorList* l, char* element)
+ * \fn bool ColorListIsIn(ColorList* l, char color)
  * \brief Returns true if the color passed in parameters is contained in the list
  * @param l The list to check
  * @param color The color which presence will be checked
@@ -199,4 +199,3 @@ bool ColorListIsIn(ColorList* l, char color){
   }
   return false;
 }
-

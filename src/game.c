@@ -37,7 +37,7 @@ void checkEvents(SDL_Event event, SDL_Renderer* ren, SDL_Window* win) {
 }
 
 /**
- * \fn void runGame(SDL_Renderer* ren, SDL_Window* win)
+ * \fn void runGame(SDL_Renderer* ren, SDL_Window* win, config* conf)
  * \brief Game loop function
  * \param ren Current game renderer
  * \param win Current game window

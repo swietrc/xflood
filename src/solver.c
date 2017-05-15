@@ -112,7 +112,7 @@ int solveBoard(Board* b, ColorList* bestSolution, ColorList* currentSolution) {
 }
 
 /**
- * \fn void getColoredAreaSize(Board* b, bool* visitedTiles, size_t x, size_t x, size_t y, size_t* size)
+ * \fn void getColoredAreaSize(Board* b, bool* visitedTiles, size_t x, size_t y, size_t* size)
  * \brief Recursively finds top-left colored area size
  * \param b The board to check
  * \param visitedTiles array keeping track of visited tiles
