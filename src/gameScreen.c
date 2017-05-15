@@ -219,11 +219,12 @@ static void displayNextBestMove(SDL_Renderer* ren, config* conf) {
 }
 
 /**
- * \fn void handleBoardClicks(size_t x, size_t y, config* conf)
+ * \fn void handleBoardClicks(size_t x, size_t y, config* conf, SDL_Renderer* ren)
  * \brief Updates the board with the color chosen by the user (color of the cell he clicked)
  * \param x X coordinate of the cell chosen by the user
  * \param y Y coordinate of the cell chosen by the user
  * \param conf Config struct containing board, boardSize and game/menuState
+ * \param ren SDL_Renderer object used to display the board
  */
 static void handleBoardClicks(size_t x, size_t y, config* conf, SDL_Renderer* ren) {
   char color;
@@ -282,10 +283,11 @@ static void handleBoardClicks(size_t x, size_t y, config* conf, SDL_Renderer* re
 }
 
 /**
- * \fn void gameScreenCheckEvents(SDL_Event event, config* conf)
+ * \fn void gameScreenCheckEvents(SDL_Event event, config* conf, SDL_Renderer* ren)
  * \brief Function checking for events and treating them
  * \param event SDL_Event object used to check and treat the current event
  * \param conf Config struct containing board, boardSize and states
+ * \param ren SDL_Renderer object used to display the board
  */
 static void gameScreenCheckEvents(SDL_Event event, config* conf, SDL_Renderer* ren) {
   needsRefresh = 1;
