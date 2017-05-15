@@ -1,6 +1,6 @@
 <div style="text-align: center"><img src="http://img15.hostingpics.net/pics/908468Xfloodlogo.png" width=400 height=400 align="middle"></div>
 
-##Project Description
+## Project Description
 
 The goal of this project is to reproduce [this game](https://play.google.com/store/apps/details?id=com.wetpalm.colorflood&hl=en)
 
@@ -8,7 +8,7 @@ The goal of this project is to reproduce [this game](https://play.google.com/sto
 
 ... and to create a solver for the game that will give the best color suite to play in order to finish the game as fast as possible.
 
-##How to build and execute the program
+## How to build and execute the program
 
 If it's not already installed, install the common build tools (it includes "make")
 ```bash
@@ -34,7 +34,7 @@ $ ./XFlood [grid size] [allowed turns]
 
 The two parameters are optionnal. By default the grid size will be 24 and you'll have 44 turns to finish the game.
 
-##How to generate documentation with doxygen
+## How to generate documentation with doxygen
 
 You first need to install [Doxygen](http://www.stack.nl/~dimitri/doxygen/download.html) and [Graphviz (a graph visualization software)](http://www.graphviz.org/Download..php).
 If you are on a debian-like OS, you can install those directly from the repositories :
@@ -51,7 +51,7 @@ $ make docs
 
 An HTML document *./docs/html/index.html* is created.
 
-##How to run unit tests
+## How to run unit tests
 
 You first need to install [the CUnit test framework](http://cunit.sourceforge.net/).
 If you are on a debian-like OS, you can install it directly from the repositories :

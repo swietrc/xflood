@@ -12,6 +12,8 @@
 #include <SDL2/SDL.h>
 #include "gameScreen.h"
 #include "menuScreen.h"
+#include "endGameScreen.h"
+#include "solverScreen.h"
 #include "board.h"
 #include "game.h"
 
@@ -61,6 +63,12 @@ void runGame(SDL_Renderer* ren, SDL_Window* win, config* conf) {
         break;
       case gameState:
         gameScreen(event, ren, conf);
+        break;
+      case solverState:
+        solverScreen(event, ren, conf);
+        break;
+      default:
+        endGameScreen(event, ren, conf);
         break;
     }
   }

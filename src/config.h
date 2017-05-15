@@ -10,7 +10,12 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-typedef enum screenState { menuState, gameState } screenState;
+#include "colorList.h"
+
+#define MAX_SIZE_SOLVER 8
+#define BOARDWIDTH 504
+
+typedef enum screenState { menuState, gameState, solverState, defeatState, victoryState } screenState;
 
 typedef struct config {
   screenState state; //!< Enum representing the state of the game
@@ -18,6 +23,9 @@ typedef struct config {
   int allowedTurns;  //!< Number of turns allowed for the current game
   int turnsLeft;     //!< Number of turns left for the current game
   Board* board;      //!< Data about the board of the current game
+  ColorList* bestSol; //!< Best solution to solve the current board
+  Board* solvingBoard; //!< Data about the board being solved
+  Board* staticBoard; //!< Board initialized as a copy of board, but will never be modified
 } config;
 
 #endif

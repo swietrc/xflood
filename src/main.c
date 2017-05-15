@@ -14,9 +14,6 @@
 #include "utils.h"
 #include "config.h"
 
-#define WINDOW_WIDTH 1000
-#define WINDOW_HEIGHT 620
-
 /**
  * \fn int main()
  * \brief Initializes window and calls the function to run the game
@@ -48,7 +45,8 @@ int main(int argc, char** argv) {
     }
 
     // Initialize default font
-    defaultFont = TTF_OpenFont("vendor/fonts/Roboto-Regular.ttf", 72); // open a font style and set a size
+    defaultFont = TTF_OpenFont("vendor/fonts/Roboto-Regular.ttf", 32); // open a font style and set a size
+    buttonFont = TTF_OpenFont("vendor/fonts/upheavtt.ttf", 30); // open a font style and set a size
 
     // Set background to black
     SDL_SetRenderDrawColor( ren, 0, 0, 0, 255 );

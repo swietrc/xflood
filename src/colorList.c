@@ -41,8 +41,9 @@ ColorList* ColorListCreateEmpty(){
  * \param color The value of the element to add
  */
 void ColorListPush(ColorList* list, char color){
-    if(list == NULL)
+    if (list == NULL) {
         return;
+    }
 
 	ColorNode *node = malloc(sizeof(ColorNode));
 	node->val = color;
@@ -102,6 +103,20 @@ bool ColorListForward(ColorList* l, char* element){
 		(l->current) = (l->current)->next;
 		return true;
 	}
+}
+
+/**
+ * \fn void ColorListReset(ColorList* l)
+ * \brief Resets current node to list head.
+ * @param l The list
+ */
+void ColorListReset(ColorList* l) {
+    if (l == NULL)
+        return;
+    if (l->head == NULL)
+        return;
+
+    l->current = l->head;
 }
 
 /**

@@ -8,6 +8,7 @@
  **/
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "solver.h"
 #include "board.h"
 #include "colorList.h"
@@ -108,4 +109,87 @@ int solveBoard(Board* b, ColorList* bestSolution, ColorList* currentSolution) {
     }
     return ColorListSize(bestSolution);
   }
+}
+
+/**
+ * \fn void getColoredAreaSize(Board* b, bool* visitedTiles, size_t x, size_t x, size_t y, size_t* size)
+ * \brief Recursively finds top-left colored area size
+ * \param b The board to check
+ * \param visitedTiles array keeping track of visited tiles
+ * \param x the X position to check
+ * \param y the Y position to check
+ * \param size the size of the top-left area
+ */
+void getColoredAreaSize(Board* b, bool* visitedTiles, size_t x, size_t y, size_t* size) {
+
+  if (getBoardCell(b, x, y) != getBoardCell(b, 0, 0)) {
+      return;
+  }
+
+  visitedTiles[x+(y*getBoardSize(b))] = true;
+  *size = *size + 1;
+
+  // Check left
+  if (x > 0 && !(visitedTiles[(x-1)+(y*getBoardSize(b))]))
+    getColoredAreaSize(b, visitedTiles, x - 1, y, size);
+
+  // Check right
+  if (x < (getBoardSize(b) - 1) && !(visitedTiles[(x+1)+(y*getBoardSize(b))]))
+    getColoredAreaSize(b, visitedTiles, x + 1, y, size);
+
+  // Check down
+  if (y < (getBoardSize(b) - 1) && !(visitedTiles[x+((y+1)*getBoardSize(b))]))
+    getColoredAreaSize(b, visitedTiles, x, y + 1, size);
+
+  // Check up
+  if (y > 0 && !(visitedTiles[x+((y-1)*getBoardSize(b))]))
+    getColoredAreaSize(b, visitedTiles, x, y - 1, size);
+}
+
+/**
+ * \fn int solveBoardEfficient(Board* b, ColorList* solution)
+ * \brief Recursively finds top-left colored area size
+ * \param b The board to check
+ * \param solution the solution found by the algorithm
+ * \return size of the solution
+ */
+int solveBoardEfficient(Board* b, ColorList* solution) {
+  bool* visitedTiles;
+  ColorList* possibleColors = NULL;
+
+  char currentColor;
+  char bestColor;
+  size_t areaSize = 0;
+  size_t bestAreaSize = 0;
+
+  Board* solvedBoard = copyBoard(b); // Copy of the board to test the solution
+  Board* testerBoard; // copy of board used to find next best color
+
+  while (!isBoardOneColored(solvedBoard)) {
+    possibleColors = getPossibleColors(solvedBoard); // Get all possible colors for next turn.
+    visitedTiles = calloc(getBoardSize(b) * getBoardSize(b), sizeof(bool)); // Keep track of visited tiles
+
+    while (ColorListForward(possibleColors, &currentColor)) { // Test all possible colors to get the one that will get us the farthest.
+      areaSize = 0;
+      testerBoard = copyBoard(solvedBoard);
+      floodBoard(testerBoard, getBoardCell(testerBoard, 0, 0), currentColor , 0, 0);
+      getColoredAreaSize(testerBoard, visitedTiles, 0, 0, &areaSize);
+
+      if (areaSize > bestAreaSize) {
+        bestAreaSize = areaSize;
+        bestColor = currentColor;
+      }
+
+      freeBoard(testerBoard);
+    }
+    ColorListPush(solution, bestColor);
+    floodBoard(solvedBoard, getBoardCell(solvedBoard, 0, 0), bestColor, 0, 0);
+
+    free(visitedTiles);
+    ColorListDestroy(possibleColors);
+  }
+
+  freeBoard(solvedBoard);
+
+  return ColorListSize(solution);
 }

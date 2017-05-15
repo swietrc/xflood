@@ -7,8 +7,6 @@
 #include "board.h"
 #include "config.h"
 
-#define BOARDWIDTH 504
-
 extern void gameScreen(SDL_Event event, SDL_Renderer* ren, config* conf);
 
 #endif

@@ -11,6 +11,8 @@
 #include <SDL2/SDL_ttf.h>
 #include "utils.h"
 
+#define BTN_MARGIN 25 
+
 /**
  * \fn void drawButton(char* txt, int x, int y, int w, int h, SDL_Color txtColor, SDL_Color backgroundColor, SDL_Renderer* ren)
  * \brief Draws a button on screen
@@ -25,18 +27,27 @@
  */
 
 void drawButton(char* txt, int x, int y, int w, int h, SDL_Color txtColor, SDL_Color backgroundColor, SDL_Renderer* ren) {
-    SDL_Surface* surfaceText = TTF_RenderText_Blended(defaultFont, txt, txtColor);
+    SDL_Surface* surfaceText = TTF_RenderText_Solid(buttonFont, txt, txtColor);
     SDL_Texture* text = SDL_CreateTextureFromSurface(ren, surfaceText);
 
-    SDL_Rect text_rect;
-    text_rect.x = x;  //controls the rect's x coordinate
-    text_rect.y = y; // controls the rect's y coordinte
-    text_rect.w = w; // controls the width of the rect
-    text_rect.h = h; // controls the height of the rect
+
+    /* Text is positionned relative to the button and its size */
+    SDL_Rect text_rect;   // Position and size of the text
+    SDL_Rect button_rect; // Position and size of the button
+    button_rect.x = x;
+    button_rect.y = y;
+    text_rect.w = surfaceText->w; // controls the width of the rect
+    text_rect.h = surfaceText->h; // controls the height of the rect
+    button_rect.w = w;
+    button_rect.h = h;
+    text_rect.x = button_rect.x + ((button_rect.w / 2) - (text_rect.w / 2));  //controls the rect's x coordinate
+    text_rect.y = button_rect.y + ((button_rect.h / 2) - (text_rect.h / 2));  //controls the rect's x coordinate
 
     SDL_SetRenderDrawColor( ren, backgroundColor.r, backgroundColor.g,  backgroundColor.b, backgroundColor.a ); // Color background of button
-    SDL_RenderFillRect( ren, &text_rect );
+    SDL_RenderFillRect( ren, &button_rect );
     SDL_RenderCopy(ren, text, NULL, &text_rect);
+
+    // printf("Button %s\nTL: %d %d  BR: %d %d\n",txt, x, y, x+w, y+h); // Debug line to print button limits coords
 
     // Free surface and texture
     SDL_FreeSurface(surfaceText);
